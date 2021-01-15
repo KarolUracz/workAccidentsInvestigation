@@ -1,6 +1,12 @@
 package pl.uracz.workAccident.entity;
 
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
 public class Company {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String companyName;
     private String street;
@@ -8,6 +14,8 @@ public class Company {
     private String postalCode;
     private String taxIdentificationNumber;
     private String pkdNumber;
+    @OneToMany
+    private Set<AccidentInvestigator> accidentInvestigators;
 
     public Long getId() {
         return id;
