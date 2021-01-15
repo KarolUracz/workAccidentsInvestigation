@@ -72,4 +72,12 @@ public class Company {
     public void setPkdNumber(String pkdNumber) {
         this.pkdNumber = pkdNumber;
     }
+
+    public Set<AccidentInvestigator> getAccidentInvestigators() {
+        return accidentInvestigators;
+    }
+
+    public void setAccidentInvestigators(Set<AccidentInvestigator> accidentInvestigators) {
+        this.accidentInvestigators = accidentInvestigators;
+    }
 }
