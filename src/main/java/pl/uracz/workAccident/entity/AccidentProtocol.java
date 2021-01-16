@@ -3,6 +3,7 @@ package pl.uracz.workAccident.entity;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.EnumSet;
 import java.util.Set;
 
 @Entity
@@ -16,7 +17,7 @@ public class AccidentProtocol {
     @OneToMany
     private Set<AccidentInvestigator> accidentInvestigators;
     private LocalDate accidentProceedingStart;
-    private LocalDate accidentProccedingEnd;
+    private LocalDate accidentProceedingEnd;
     private LocalDate accidentDate;
     private LocalTime accidentTime;
     @OneToMany
@@ -29,6 +30,18 @@ public class AccidentProtocol {
     private boolean employerFault;
     private boolean employeeFault;
     private boolean employeeIntoxication;
+    @OneToMany
+    private Set<AccidentEffect> accidentEffects;
+    private boolean isAccidentAtWork;
+    private String accidentReason;
+    @OneToMany
+    private Set<AccidentType> accidentType;
+    @OneToMany
+    private Set<AfterAccidentRecommendation> afterAccidentRecommendations;
+    private LocalDate dateOfPreparation;
+    private String obstaclesOfPreparationInTerm;
+    @OneToMany
+    private Set<ProtolAttachment> protolAttachments;
 
     public Long getId() {
         return id;
@@ -70,12 +83,12 @@ public class AccidentProtocol {
         this.accidentProceedingStart = accidentProceedingStart;
     }
 
-    public LocalDate getAccidentProccedingEnd() {
-        return accidentProccedingEnd;
+    public LocalDate getAccidentProceedingEnd() {
+        return accidentProceedingEnd;
     }
 
-    public void setAccidentProccedingEnd(LocalDate accidentProccedingEnd) {
-        this.accidentProccedingEnd = accidentProccedingEnd;
+    public void setAccidentProceedingEnd(LocalDate accidentProccedingEnd) {
+        this.accidentProceedingEnd = accidentProccedingEnd;
     }
 
     public LocalDate getAccidentDate() {
@@ -116,5 +129,101 @@ public class AccidentProtocol {
 
     public void setReportedDate(LocalDate reportedDate) {
         this.reportedDate = reportedDate;
+    }
+
+    public String getAccidentCircumstances() {
+        return accidentCircumstances;
+    }
+
+    public void setAccidentCircumstances(String accidentCircumstances) {
+        this.accidentCircumstances = accidentCircumstances;
+    }
+
+    public Set<AccidentCause> getAccidentCauses() {
+        return accidentCauses;
+    }
+
+    public void setAccidentCauses(Set<AccidentCause> accidentCauses) {
+        this.accidentCauses = accidentCauses;
+    }
+
+    public boolean isEmployerFault() {
+        return employerFault;
+    }
+
+    public void setEmployerFault(boolean employerFault) {
+        this.employerFault = employerFault;
+    }
+
+    public boolean isEmployeeFault() {
+        return employeeFault;
+    }
+
+    public void setEmployeeFault(boolean employeeFault) {
+        this.employeeFault = employeeFault;
+    }
+
+    public boolean isEmployeeIntoxication() {
+        return employeeIntoxication;
+    }
+
+    public void setEmployeeIntoxication(boolean employeeIntoxication) {
+        this.employeeIntoxication = employeeIntoxication;
+    }
+
+    public Set<AccidentEffect> getAccidentEffects() {
+        return accidentEffects;
+    }
+
+    public void setAccidentEffects(Set<AccidentEffect> accidentEffects) {
+        this.accidentEffects = accidentEffects;
+    }
+
+    public boolean isAccidentAtWork() {
+        return isAccidentAtWork;
+    }
+
+    public void setAccidentAtWork(boolean accidentAtWork) {
+        isAccidentAtWork = accidentAtWork;
+    }
+
+    public String getAccidentReason() {
+        return accidentReason;
+    }
+
+    public void setAccidentReason(String accidentReason) {
+        this.accidentReason = accidentReason;
+    }
+
+    public Set<AccidentType> getAccidentType() {
+        return accidentType;
+    }
+
+    public void setAccidentType(Set<AccidentType> accidentType) {
+        this.accidentType = accidentType;
+    }
+
+    public Set<AfterAccidentRecommendation> getAfterAccidentRecommendations() {
+        return afterAccidentRecommendations;
+    }
+
+    public void setAfterAccidentRecommendations(Set<AfterAccidentRecommendation> afterAccidentRecommendations) {
+        this.afterAccidentRecommendations = afterAccidentRecommendations;
+    }
+
+    public LocalDate getDateOfPreparation() {
+        return dateOfPreparation;
+    }
+
+    public void setDateOfPreparation(LocalDate dateOfPreparation) {
+        this.dateOfPreparation = dateOfPreparation;
+    }
+
+    public String getObstaclesOfPreparationInTerm() {
+        return obstaclesOfPreparationInTerm;
+    }
+
+    public void setObstaclesOfPreparationInTerm(String obstaclesOfPreparationInTerm) {
+        this.obstaclesOfPreparationInTerm = obstaclesOfPreparationInTerm;
     }
 }
