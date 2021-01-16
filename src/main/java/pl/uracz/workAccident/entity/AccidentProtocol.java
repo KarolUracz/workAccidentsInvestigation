@@ -3,7 +3,6 @@ package pl.uracz.workAccident.entity;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.EnumSet;
 import java.util.Set;
 
 @Entity
@@ -41,7 +40,7 @@ public class AccidentProtocol {
     private LocalDate dateOfPreparation;
     private String obstaclesOfPreparationInTerm;
     @OneToMany
-    private Set<ProtolAttachment> protolAttachments;
+    private Set<ProtocolAttachment> protocollAttachments;
 
     public Long getId() {
         return id;
@@ -225,5 +224,13 @@ public class AccidentProtocol {
 
     public void setObstaclesOfPreparationInTerm(String obstaclesOfPreparationInTerm) {
         this.obstaclesOfPreparationInTerm = obstaclesOfPreparationInTerm;
+    }
+
+    public Set<ProtocolAttachment> getProtocollAttachments() {
+        return protocollAttachments;
+    }
+
+    public void setProtocollAttachments(Set<ProtocolAttachment> protocollAttachments) {
+        this.protocollAttachments = protocollAttachments;
     }
 }
