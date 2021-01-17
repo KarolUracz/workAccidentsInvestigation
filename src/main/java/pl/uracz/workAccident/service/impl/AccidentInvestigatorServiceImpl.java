@@ -6,6 +6,7 @@ import pl.uracz.workAccident.service.AccidentInvestigatorService;
 
 @Service
 public class AccidentInvestigatorServiceImpl implements AccidentInvestigatorService {
+
     private AccidentsInvestigatorRepository accidentsInvestigatorRepository;
 
     public AccidentInvestigatorServiceImpl(AccidentsInvestigatorRepository accidentsInvestigatorRepository) {

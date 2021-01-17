@@ -6,6 +6,7 @@ import pl.uracz.workAccident.service.CompanyService;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
+
     private CompanyRepository companyRepository;
 
     public CompanyServiceImpl(CompanyRepository companyRepository) {
