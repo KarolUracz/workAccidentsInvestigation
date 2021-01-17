@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface AccidentInvestigatorService {
     List<AccidentInvestigator> findAll();
-    boolean saveAccidentInvestigator(AccidentInvestigator company);
+    void saveAccidentInvestigator(AccidentInvestigator accidentInvestigator);
     AccidentInvestigator readAccidentInvestigator(long id);
-    boolean updateAccidentInvestigator(AccidentInvestigator company);
-    boolean deleteAccidentInvestigator(long id);
+    void deleteAccidentInvestigator(long id);
 }

@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface AccidentCauseService {
     List<AccidentCause> findAll();
-    boolean saveAccidentCause(AccidentCause accidentCause);
+    void saveAccidentCause(AccidentCause accidentCause);
     AccidentCause readAccidentCause(long id);
-    boolean updateAccidentCause(AccidentCause accidentCause);
-    boolean deleteAccidentCause(long id);
+    void deleteAccidentCause(long id);
 }

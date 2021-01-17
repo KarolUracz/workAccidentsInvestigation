@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface AccidentEffectService {
     List<AccidentEffect> findAll();
-    boolean saveAccidentEffect(AccidentEffect accidentEffect);
+    void saveAccidentEffect(AccidentEffect accidentEffect);
     AccidentEffect readAccidentEffect(long id);
-    boolean updateAccidentEffect(AccidentEffect accidentEffect);
-    boolean deleteAccidentEffect(long id);
+    void deleteAccidentEffect(long id);
 }

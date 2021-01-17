@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface AfterAccidentRecommendationService {
     List<AfterAccidentRecommendation> findAll();
-    boolean saveAfterAccidentRecommendation(AfterAccidentRecommendation afterAccidentRecommendation);
+    void saveAfterAccidentRecommendation(AfterAccidentRecommendation afterAccidentRecommendation);
     AfterAccidentRecommendation readAfterAccidentRecommendation(long id);
-    boolean updateAfterAccidentRecommendation(AfterAccidentRecommendation afterAccidentRecommendation);
-    boolean deleteAfterAccidentRecommendation(long id);
+    void deleteAfterAccidentRecommendation(long id);
 }

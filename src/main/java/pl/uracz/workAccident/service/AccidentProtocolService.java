@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface AccidentProtocolService {
     List<AccidentProtocol> findAll();
-    boolean saveAccidentProtocol(AccidentProtocol accidentProtocol);
+    void saveAccidentProtocol(AccidentProtocol accidentProtocol);
     AccidentProtocol readAccidentProtocol(long id);
-    boolean updateAccidentProtocol(AccidentProtocol accidentProtocol);
-    boolean deleteAccidentProtocol(long id);
+    void deleteAccidentProtocol(long id);
 }

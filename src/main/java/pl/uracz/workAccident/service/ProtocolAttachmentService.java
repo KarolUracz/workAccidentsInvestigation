@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface ProtocolAttachmentService {
     List<ProtocolAttachment> findAll();
-    boolean saveProtocolAttachment(ProtocolAttachment company);
+    void saveProtocolAttachment(ProtocolAttachment protocolAttachment);
     ProtocolAttachment readProtocolAttachment(long id);
-    boolean updateProtocolAttachment(ProtocolAttachment company);
-    boolean deleteProtocolAttachment(long id);
+    void deleteProtocolAttachment(long id);
 }
