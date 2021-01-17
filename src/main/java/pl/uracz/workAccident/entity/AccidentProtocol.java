@@ -40,7 +40,8 @@ public class AccidentProtocol {
     private LocalDate dateOfPreparation;
     private String obstaclesOfPreparationInTerm;
     @OneToMany
-    private Set<ProtocolAttachment> protocollAttachments;
+    private Set<ProtocolAttachment> protocolAttachments;
+    private boolean finishedProtocol;
 
     public Long getId() {
         return id;
@@ -226,11 +227,19 @@ public class AccidentProtocol {
         this.obstaclesOfPreparationInTerm = obstaclesOfPreparationInTerm;
     }
 
-    public Set<ProtocolAttachment> getProtocollAttachments() {
-        return protocollAttachments;
+    public Set<ProtocolAttachment> getProtocolAttachments() {
+        return protocolAttachments;
     }
 
-    public void setProtocollAttachments(Set<ProtocolAttachment> protocollAttachments) {
-        this.protocollAttachments = protocollAttachments;
+    public void setProtocolAttachments(Set<ProtocolAttachment> protocolAttachments) {
+        this.protocolAttachments = protocolAttachments;
+    }
+
+    public boolean isFinishedProtocol() {
+        return finishedProtocol;
+    }
+
+    public void setFinishedProtocol(boolean finishedProtocol) {
+        this.finishedProtocol = finishedProtocol;
     }
 }
