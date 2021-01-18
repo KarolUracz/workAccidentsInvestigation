@@ -2,10 +2,7 @@ package pl.uracz.workAccident.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -16,4 +13,6 @@ public class AccidentInvestigator {
     private String name;
     private String surname;
     private String workPosition;
+    @ManyToOne
+    private Company company;
 }

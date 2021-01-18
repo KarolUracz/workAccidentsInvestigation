@@ -1,5 +1,6 @@
 package pl.uracz.workAccident.service;
 
+import pl.uracz.workAccident.dto.UserRegisterDto;
 import pl.uracz.workAccident.entity.User;
 
 import java.util.List;
@@ -10,6 +11,6 @@ public interface UserService {
     User readUser(Long id);
     User findById(Long id);
     void delete(Long id);
-    void saveUser(User user);
+    void saveUser(UserRegisterDto user);
     public User findByUsernameAndPassword(String username, String password);
 }

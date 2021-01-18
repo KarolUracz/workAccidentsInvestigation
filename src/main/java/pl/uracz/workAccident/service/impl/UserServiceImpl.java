@@ -3,6 +3,7 @@ package pl.uracz.workAccident.service.impl;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.uracz.workAccident.dto.UserRegisterDto;
 import pl.uracz.workAccident.entity.Role;
 import pl.uracz.workAccident.entity.User;
 import pl.uracz.workAccident.repository.RoleRepository;
@@ -52,8 +53,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public void saveUser(UserRegisterDto userRegisterDto) {
+        User user = new User();
+        user.setUsername(userRegisterDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
         Role userRole = roleRepository.findByName("ROLE_USER");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
         userRepository.save(user);
