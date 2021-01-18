@@ -35,4 +35,9 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     public void deleteAccidentProtocol(long id) {
         accidentProtocolRepository.deleteById(id);
     }
+
+    @Override
+    public Integer numberOfAccidents() {
+        return accidentProtocolRepository.numberOfAccidents();
+    }
 }
