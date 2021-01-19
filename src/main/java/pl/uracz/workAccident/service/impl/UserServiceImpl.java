@@ -4,8 +4,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.uracz.workAccident.dto.UserRegisterDto;
+import pl.uracz.workAccident.entity.Company;
 import pl.uracz.workAccident.entity.Role;
 import pl.uracz.workAccident.entity.User;
+import pl.uracz.workAccident.repository.CompanyRepository;
 import pl.uracz.workAccident.repository.RoleRepository;
 import pl.uracz.workAccident.repository.UserRepository;
 import pl.uracz.workAccident.service.UserService;
@@ -20,11 +22,13 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder passwordEncoder;
     private RoleRepository roleRepository;
+    private CompanyRepository companyRepository;
 
-    public UserServiceImpl(UserRepository userRepository, @Lazy BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository,@Lazy BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository, CompanyRepository companyRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
+        this.companyRepository = companyRepository;
     }
 
     @Override
@@ -59,7 +63,9 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
         Role userRole = roleRepository.findByName("ROLE_USER");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
-        user.setCompany(userRegisterDto.getCompanyDto().fromDtoToCompany());
+        Company company = userRegisterDto.getCompanyDto().fromDtoToCompany();
+        companyRepository.save(company);
+        user.setCompany(company);
         userRepository.save(user);
     }
 
