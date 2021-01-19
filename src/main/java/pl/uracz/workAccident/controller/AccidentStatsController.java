@@ -3,6 +3,7 @@ package pl.uracz.workAccident.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.uracz.workAccident.dto.DataSummary;
 import pl.uracz.workAccident.service.AccidentProtocolService;
 
 @RestController
@@ -15,9 +16,12 @@ public class AccidentStatsController {
         this.accidentProtocolService = accidentProtocolService;
     }
 
-    @GetMapping("/stats")
-    public String getAccidentStats() {
-        return String.valueOf(accidentProtocolService.numberOfAccidents());
+    @GetMapping("/data-summary")
+    public DataSummary getAccidentStats() {
+        DataSummary dataSummary = new DataSummary();
+        dataSummary.setUnfinishedProtocols(accidentProtocolService.findAllUnfinished());
+        dataSummary.setNumberOfAccidents(accidentProtocolService.numberOfAccidents());
+        return dataSummary;
     }
 
 }

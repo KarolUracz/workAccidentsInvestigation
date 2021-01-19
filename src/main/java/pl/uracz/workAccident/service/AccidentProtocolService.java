@@ -10,4 +10,5 @@ public interface AccidentProtocolService {
     AccidentProtocol readAccidentProtocol(long id);
     void deleteAccidentProtocol(long id);
     Integer numberOfAccidents();
+    List<AccidentProtocol> findAllUnfinished();
 }

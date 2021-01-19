@@ -5,10 +5,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pl.uracz.workAccident.entity.AccidentProtocol;
 
+import java.util.List;
+
 @Repository
 public interface AccidentProtocolRepository extends JpaRepository<AccidentProtocol, Long> {
 
     @Query(value = "select count (AccidentProtocol) from AccidentProtocol ap where ap.isAccidentAtWork = true and ap.finishedProtocol = true")
     Integer numberOfAccidents();
+    @Query("select ap from AccidentProtocol ap where ap.finishedProtocol = false")
+    List<AccidentProtocol> findAllUnfinished();
 
 }

@@ -40,4 +40,9 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     public Integer numberOfAccidents() {
         return accidentProtocolRepository.numberOfAccidents();
     }
+
+    @Override
+    public List<AccidentProtocol> findAllUnfinished() {
+        return accidentProtocolRepository.findAllUnfinished();
+    }
 }
