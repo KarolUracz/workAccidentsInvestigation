@@ -3,7 +3,6 @@ package pl.uracz.workAccident.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.uracz.workAccident.dto.AccidentProtocolDto;
-import pl.uracz.workAccident.entity.AccidentProtocol;
 
 @RestController
 @RequestMapping("/api")

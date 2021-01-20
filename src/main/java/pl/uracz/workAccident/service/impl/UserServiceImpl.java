@@ -67,9 +67,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(UserRegisterDto userRegisterDto) {
         User user = userMapper.userRegistrationDtoToUser(userRegisterDto);
-
-//        user.setUsername(userRegisterDto.getUsername());
-//        user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         Role userRole = roleRepository.findByName("ROLE_USER");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
         Company company = companyMapper.companyDtoToCompany(userRegisterDto.getCompanyDto());
