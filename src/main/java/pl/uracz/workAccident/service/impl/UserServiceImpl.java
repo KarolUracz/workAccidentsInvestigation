@@ -7,6 +7,8 @@ import pl.uracz.workAccident.dto.UserRegisterDto;
 import pl.uracz.workAccident.entity.Company;
 import pl.uracz.workAccident.entity.Role;
 import pl.uracz.workAccident.entity.User;
+import pl.uracz.workAccident.mapper.CompanyMapper;
+import pl.uracz.workAccident.mapper.UserMapper;
 import pl.uracz.workAccident.repository.CompanyRepository;
 import pl.uracz.workAccident.repository.RoleRepository;
 import pl.uracz.workAccident.repository.UserRepository;
@@ -23,12 +25,18 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
     private RoleRepository roleRepository;
     private CompanyRepository companyRepository;
+    private UserMapper userMapper;
+    private CompanyMapper companyMapper;
 
-    public UserServiceImpl(UserRepository userRepository,@Lazy BCryptPasswordEncoder passwordEncoder, RoleRepository roleRepository, CompanyRepository companyRepository) {
+    public UserServiceImpl(UserRepository userRepository, @Lazy BCryptPasswordEncoder passwordEncoder,
+                           RoleRepository roleRepository, CompanyRepository companyRepository,
+                           UserMapper userMapper, CompanyMapper companyMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
         this.companyRepository = companyRepository;
+        this.userMapper = userMapper;
+        this.companyMapper = companyMapper;
     }
 
     @Override
@@ -58,12 +66,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(UserRegisterDto userRegisterDto) {
-        User user = new User();
-        user.setUsername(userRegisterDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
+        User user = userMapper.userRegistrationDtoToUser(userRegisterDto);
+
+//        user.setUsername(userRegisterDto.getUsername());
+//        user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
         Role userRole = roleRepository.findByName("ROLE_USER");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
-        Company company = userRegisterDto.getCompanyDto().fromDtoToCompany();
+        Company company = companyMapper.companyDtoToCompany(userRegisterDto.getCompanyDto());
         companyRepository.save(company);
         user.setCompany(company);
         userRepository.save(user);
