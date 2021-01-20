@@ -1,7 +1,9 @@
 package pl.uracz.workAccident.service.impl;
 
 import org.springframework.stereotype.Service;
+import pl.uracz.workAccident.dto.AccidentTypeDto;
 import pl.uracz.workAccident.entity.AccidentType;
+import pl.uracz.workAccident.mapper.AccidentTypeMapper;
 import pl.uracz.workAccident.repository.AccidentTypeRepository;
 import pl.uracz.workAccident.service.AccidentTypeService;
 
@@ -11,9 +13,11 @@ import java.util.List;
 public class AccidentTypeServiceImpl implements AccidentTypeService {
 
     private AccidentTypeRepository accidentTypeRepository;
+    private AccidentTypeMapper accidentTypeMapper;
 
-    public AccidentTypeServiceImpl(AccidentTypeRepository accidentTypeRepository) {
+    public AccidentTypeServiceImpl(AccidentTypeRepository accidentTypeRepository, AccidentTypeMapper accidentTypeMapper) {
         this.accidentTypeRepository = accidentTypeRepository;
+        this.accidentTypeMapper = accidentTypeMapper;
     }
 
     @Override
@@ -23,6 +27,12 @@ public class AccidentTypeServiceImpl implements AccidentTypeService {
 
     @Override
     public void saveAccidentType(AccidentType accidentType) {
+        accidentTypeRepository.save(accidentType);
+    }
+
+    @Override
+    public void saveAccidentType(AccidentTypeDto accidentTypeDto) {
+        AccidentType accidentType = accidentTypeMapper.accidentTypeFromDto(accidentTypeDto);
         accidentTypeRepository.save(accidentType);
     }
 

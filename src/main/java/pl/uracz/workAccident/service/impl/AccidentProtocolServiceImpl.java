@@ -1,7 +1,9 @@
 package pl.uracz.workAccident.service.impl;
 
 import org.springframework.stereotype.Service;
+import pl.uracz.workAccident.dto.AccidentProtocolDto;
 import pl.uracz.workAccident.entity.AccidentProtocol;
+import pl.uracz.workAccident.mapper.AccidentProtocolMapper;
 import pl.uracz.workAccident.repository.AccidentProtocolRepository;
 import pl.uracz.workAccident.service.AccidentProtocolService;
 
@@ -11,9 +13,11 @@ import java.util.List;
 public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
     private AccidentProtocolRepository accidentProtocolRepository;
+    private AccidentProtocolMapper accidentProtocolMapper;
 
-    public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository) {
+    public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository, AccidentProtocolMapper accidentProtocolMapper) {
         this.accidentProtocolRepository = accidentProtocolRepository;
+        this.accidentProtocolMapper = accidentProtocolMapper;
     }
 
     @Override
@@ -23,6 +27,12 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
     @Override
     public void saveAccidentProtocol(AccidentProtocol accidentProtocol) {
+        accidentProtocolRepository.save(accidentProtocol);
+    }
+
+    @Override
+    public void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto) {
+        AccidentProtocol accidentProtocol = accidentProtocolMapper.protocolFromDto(accidentProtocolDto);
         accidentProtocolRepository.save(accidentProtocol);
     }
 

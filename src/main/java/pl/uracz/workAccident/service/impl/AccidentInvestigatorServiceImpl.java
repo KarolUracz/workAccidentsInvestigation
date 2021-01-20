@@ -1,7 +1,9 @@
 package pl.uracz.workAccident.service.impl;
 
 import org.springframework.stereotype.Service;
+import pl.uracz.workAccident.dto.AccidentInvestigatorDto;
 import pl.uracz.workAccident.entity.AccidentInvestigator;
+import pl.uracz.workAccident.mapper.AccidentInvestigatorMapper;
 import pl.uracz.workAccident.repository.AccidentsInvestigatorRepository;
 import pl.uracz.workAccident.service.AccidentInvestigatorService;
 
@@ -11,9 +13,11 @@ import java.util.List;
 public class AccidentInvestigatorServiceImpl implements AccidentInvestigatorService {
 
     private AccidentsInvestigatorRepository accidentsInvestigatorRepository;
+    private AccidentInvestigatorMapper accidentInvestigatorMapper;
 
-    public AccidentInvestigatorServiceImpl(AccidentsInvestigatorRepository accidentsInvestigatorRepository) {
+    public AccidentInvestigatorServiceImpl(AccidentsInvestigatorRepository accidentsInvestigatorRepository, AccidentInvestigatorMapper accidentInvestigatorMapper) {
         this.accidentsInvestigatorRepository = accidentsInvestigatorRepository;
+        this.accidentInvestigatorMapper = accidentInvestigatorMapper;
     }
 
     @Override
@@ -23,6 +27,12 @@ public class AccidentInvestigatorServiceImpl implements AccidentInvestigatorServ
 
     @Override
     public void saveAccidentInvestigator(AccidentInvestigator accidentInvestigator) {
+        accidentsInvestigatorRepository.save(accidentInvestigator);
+    }
+
+    @Override
+    public void saveAccidentInvestigator(AccidentInvestigatorDto accidentInvestigatorDto) {
+        AccidentInvestigator accidentInvestigator = accidentInvestigatorMapper.accidentInvestigatorFromDto(accidentInvestigatorDto);
         accidentsInvestigatorRepository.save(accidentInvestigator);
     }
 
