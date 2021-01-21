@@ -32,6 +32,8 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     private VictimAddressMapper victimAddressMapper;
     private VictimRepository victimRepository;
     private VictimMapper victimMapper;
+    private CompanyRepository companyRepository;
+    private CompanyMapper companyMapper;
 
     public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository,
                                        AccidentProtocolMapper accidentProtocolMapper,
@@ -41,7 +43,7 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
                                        AccidentTypeRepository accidentTypeRepository, AccidentTypeMapper accidentTypeMapper,
                                        AfterAccidentRecommendationRepository afterAccidentRecommendationRepository, AfterAccidentRecommendationMapper afterAccidentRecommendationMapper,
                                        ProtocolAttachmentRepository protocolAttachmentRepository, ProtocolAttachmentMapper protocolAttachmentMapper,
-                                       VictimAddressRepository victimAddressRepository, VictimAddressMapper victimAddressMapper, VictimRepository victimRepository, VictimMapper victimMapper) {
+                                       VictimAddressRepository victimAddressRepository, VictimAddressMapper victimAddressMapper, VictimRepository victimRepository, VictimMapper victimMapper, CompanyRepository companyRepository, CompanyMapper companyMapper) {
         this.accidentProtocolRepository = accidentProtocolRepository;
         this.accidentProtocolMapper = accidentProtocolMapper;
         this.accidentCauseRepository = accidentCauseRepository;
@@ -60,6 +62,8 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         this.victimAddressMapper = victimAddressMapper;
         this.victimRepository = victimRepository;
         this.victimMapper = victimMapper;
+        this.companyRepository = companyRepository;
+        this.companyMapper = companyMapper;
     }
 
     @Override
@@ -75,9 +79,20 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     @Override
     public void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto) {
         AccidentProtocol accidentProtocol = accidentProtocolMapper.protocolFromDto(accidentProtocolDto);
+        Company company = new Company();
+        if (companyRepository.existsByCompanyName(accidentProtocolDto.getCompanyDto().getCompanyName())){
+            company = companyRepository.findByCompanyName(accidentProtocolDto.getCompanyDto().getCompanyName());
+            accidentProtocol.setCompany(company);
+        } else {
+            company = companyMapper.companyDtoToCompany(accidentProtocolDto.getCompanyDto());
+            accidentProtocol.setCompany(company);
+            companyRepository.save(company);
+        }
+
         Set<AccidentInvestigator> accidentInvestigators = new HashSet<>();
         for (AccidentInvestigatorDto accidentInvestigatorDto : accidentProtocolDto.getAccidentInvestigatorsDto()) {
             AccidentInvestigator accidentInvestigator = accidentInvestigatorMapper.accidentInvestigatorFromDto(accidentInvestigatorDto);
+            accidentInvestigator.setCompany(company);
             accidentInvestigators.add(accidentInvestigator);
             accidentsInvestigatorRepository.save(accidentInvestigator);
         }
@@ -132,6 +147,7 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
             protocolAttachmentRepository.save(protocolAttachment);
         }
         accidentProtocol.setProtocolAttachments(protocolAttachments);
+
         accidentProtocolRepository.save(accidentProtocol);
     }
 
