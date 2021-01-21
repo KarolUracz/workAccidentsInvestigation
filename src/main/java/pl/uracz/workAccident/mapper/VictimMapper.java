@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import pl.uracz.workAccident.dto.VictimDto;
 import pl.uracz.workAccident.entity.Victim;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface VictimMapper {
 
     Victim victimFromDto (VictimDto victimDto);

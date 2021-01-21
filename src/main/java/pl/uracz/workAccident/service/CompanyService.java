@@ -11,4 +11,6 @@ public interface CompanyService {
     void saveCompany(CompanyDto companyDto);
     Company readCompany(long id);
     void deleteCompany(long id);
+    Company findByName(String name);
+    boolean existByCompanyName(String name);
 }

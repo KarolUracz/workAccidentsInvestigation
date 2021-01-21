@@ -1,9 +1,17 @@
 package pl.uracz.workAccident.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Set;
 
@@ -21,7 +29,9 @@ public class AccidentProtocol {
     private LocalDate accidentProceedingStart;
     private LocalDate accidentProceedingEnd;
     private LocalDate accidentDate;
-    private LocalTime accidentTime;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime accidentTime;
     @OneToMany
     private Set<Victim> victim;
     private String reportedBy;
@@ -29,9 +39,9 @@ public class AccidentProtocol {
     private String accidentCircumstances;
     @OneToMany
     private Set<AccidentCause> accidentCauses;
-    private boolean employerFault;
-    private boolean employeeFault;
-    private boolean employeeIntoxication;
+    private String employerFault;
+    private String employeeFault;
+    private String employeeIntoxication;
     @OneToMany
     private Set<AccidentEffect> accidentEffects;
     private boolean isAccidentAtWork;
