@@ -91,11 +91,11 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     public void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto) {
         AccidentProtocol accidentProtocol = accidentProtocolMapper.protocolFromDto(accidentProtocolDto);
         AccidentProtocol byProtocolNumber = accidentProtocolRepository.findByProtocolNumber(accidentProtocol.getProtocolNumber());
-        if (byProtocolNumber != null){
+        if (byProtocolNumber != null) {
             accidentProtocol.setId(byProtocolNumber.getId());
         }
         Company company;
-        if (companyRepository.existsByCompanyName(accidentProtocolDto.getCompanyDto().getCompanyName())){
+        if (companyRepository.existsByCompanyName(accidentProtocolDto.getCompanyDto().getCompanyName())) {
             company = companyRepository.findByCompanyName(accidentProtocolDto.getCompanyDto().getCompanyName());
             accidentProtocol.setCompany(company);
         } else {
@@ -113,16 +113,12 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         }
         accidentProtocol.setAccidentInvestigators(accidentInvestigators);
 
-        Set<Victim> victims = new HashSet<>();
-        for (VictimDto victimDto : accidentProtocolDto.getVictimDto()) {
-            VictimAddress victimAddress = victimAddressMapper.victimAddressFromDto(victimDto.getAddressDto());
-            victimAddressRepository.save(victimAddress);
-            Victim victim = victimMapper.victimFromDto(victimDto);
-            victim.setAddress(victimAddress);
-            victims.add(victim);
-            victimRepository.save(victim);
-        }
-        accidentProtocol.setVictim(victims);
+        VictimAddress victimAddress = victimAddressMapper.victimAddressFromDto(accidentProtocolDto.getVictimDto().getAddressDto());
+        victimAddressRepository.save(victimAddress);
+        Victim victim = victimMapper.victimFromDto(accidentProtocolDto.getVictimDto());
+        victim.setAddress(victimAddress);
+        victimRepository.save(victim);
+        accidentProtocol.setVictim(victim);
 
         Set<AccidentCause> accidentCauses = new HashSet<>();
         for (AccidentCauseDto accidentCauseDto : accidentProtocolDto.getAccidentCausesDto()) {
@@ -132,7 +128,8 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         }
         accidentProtocol.setAccidentCauses(accidentCauses);
         Set<AccidentEffect> accidentEffects = new HashSet<>();
-        for (AccidentEffectDto accidentEffectDto : accidentProtocolDto.getAccidentEffectsDto()) {
+        for (
+                AccidentEffectDto accidentEffectDto : accidentProtocolDto.getAccidentEffectsDto()) {
             AccidentEffect accidentEffect = accidentEffectMapper.accidentEffectFromDto(accidentEffectDto);
             accidentEffects.add(accidentEffect);
             accidentEffectRepository.save(accidentEffect);
@@ -140,7 +137,8 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         accidentProtocol.setAccidentEffects(accidentEffects);
 
         Set<AccidentType> accidentTypes = new HashSet<>();
-        for (AccidentTypeDto accidentTypeDto : accidentProtocolDto.getAccidentTypeDto()) {
+        for (
+                AccidentTypeDto accidentTypeDto : accidentProtocolDto.getAccidentTypeDto()) {
             AccidentType accidentType = accidentTypeMapper.accidentTypeFromDto(accidentTypeDto);
             accidentTypes.add(accidentType);
             accidentTypeRepository.save(accidentType);
@@ -148,7 +146,8 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         accidentProtocol.setAccidentType(accidentTypes);
 
         Set<AfterAccidentRecommendation> afterAccidentRecommendations = new HashSet<>();
-        for (AfterAccidentRecommendationDto afterAccidentRecommendationDto : accidentProtocolDto.getAfterAccidentRecommendationsDto()) {
+        for (
+                AfterAccidentRecommendationDto afterAccidentRecommendationDto : accidentProtocolDto.getAfterAccidentRecommendationsDto()) {
             AfterAccidentRecommendation afterAccidentRecommendation = afterAccidentRecommendationMapper.accidentRecommendationFromDto(afterAccidentRecommendationDto);
             afterAccidentRecommendations.add(afterAccidentRecommendation);
             afterAccidentRecommendationRepository.save(afterAccidentRecommendation);
@@ -156,7 +155,8 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         accidentProtocol.setAfterAccidentRecommendations(afterAccidentRecommendations);
 
         Set<ProtocolAttachment> protocolAttachments = new HashSet<>();
-        for (ProtocolAttachmentDto protocolAttachmentDto : accidentProtocolDto.getProtocolAttachmentsDto()) {
+        for (
+                ProtocolAttachmentDto protocolAttachmentDto : accidentProtocolDto.getProtocolAttachmentsDto()) {
             ProtocolAttachment protocolAttachment = protocolAttachmentMapper.attachmentFromDto(protocolAttachmentDto);
             protocolAttachments.add(protocolAttachment);
             protocolAttachmentRepository.save(protocolAttachment);
@@ -180,7 +180,8 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     public Integer numberOfAccidents() {
         return accidentProtocolRepository.numberOfAccidents();
     }
-//TODO: create mapper for below method
+
+    //TODO: create mapper for below method
     @Override
     public List<UnfinishedProtocolDto> findAllUnfinished() {
         List<AccidentProtocol> allUnfinished = accidentProtocolRepository.findAllUnfinished();
@@ -190,13 +191,8 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
             unfinishedProtocolDto.setUnfinishedProtocolNumber(accidentProtocol.getProtocolNumber());
             unfinishedProtocolDto.setAccidentDate(accidentProtocol.getAccidentDate());
             unfinishedProtocolDto.setReportedDate(accidentProtocol.getReportedDate());
-            Set<VictimFullNameDto> victimFullNameDtos = new HashSet<>();
-            for (Victim victim : accidentProtocol.getVictim()) {
-                VictimFullNameDto victimFullNameDto = new VictimFullNameDto();
-                victimFullNameDto.setFullName(victim.getName() + " " + victim.getSurname());
-                victimFullNameDtos.add(victimFullNameDto);
-            }
-            unfinishedProtocolDto.setVictimFullNames(victimFullNameDtos);
+            VictimFullNameDto victimFullNameDto = new VictimFullNameDto();
+            victimFullNameDto.setFullName(accidentProtocol.getVictim().getName() + " " + accidentProtocol.getVictim().getSurname());
             allUnfinishedDto.add(unfinishedProtocolDto);
         }
         return allUnfinishedDto;

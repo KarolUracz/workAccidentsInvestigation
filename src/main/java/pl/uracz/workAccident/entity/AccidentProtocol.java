@@ -32,8 +32,8 @@ public class AccidentProtocol {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime accidentTime;
-    @OneToMany
-    private Set<Victim> victim;
+    @OneToOne
+    private Victim victim;
     private String reportedBy;
     private LocalDate reportedDate;
     private String accidentCircumstances;

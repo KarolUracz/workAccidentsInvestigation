@@ -11,9 +11,4 @@ public interface AccidentProtocolMapper {
 
     AccidentProtocol protocolFromDto (AccidentProtocolDto accidentProtocolDto);
     AccidentProtocolDto dtoFromAccidentProtocol(AccidentProtocol accidentProtocol);
-    @Mapping(source = "protocolNumber", target = "unfinishedProtocolNumber")
-    @Mapping(source = "accidentDate", target = "accidentDate")
-    @Mapping(source = "reportedDate", target = "reportedDate")
-    @Mapping(source = "victim", target = "victimFullNames")
-    UnfinishedProtocolDto protocolToUnfinishedDto(AccidentProtocol accidentProtocol);
 }
