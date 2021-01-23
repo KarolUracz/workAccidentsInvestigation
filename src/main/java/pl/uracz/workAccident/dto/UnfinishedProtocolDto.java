@@ -9,5 +9,5 @@ public class UnfinishedProtocolDto {
     private String unfinishedProtocolNumber;
     private LocalDate accidentDate;
     private LocalDate reportedDate;
-    private VictimFullNameDto victimFullNames;
+    private String victimFullName;
 }

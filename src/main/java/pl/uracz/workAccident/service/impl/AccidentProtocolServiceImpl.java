@@ -191,8 +191,7 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
             unfinishedProtocolDto.setUnfinishedProtocolNumber(accidentProtocol.getProtocolNumber());
             unfinishedProtocolDto.setAccidentDate(accidentProtocol.getAccidentDate());
             unfinishedProtocolDto.setReportedDate(accidentProtocol.getReportedDate());
-            VictimFullNameDto victimFullNameDto = new VictimFullNameDto();
-            victimFullNameDto.setFullName(accidentProtocol.getVictim().getName() + " " + accidentProtocol.getVictim().getSurname());
+            unfinishedProtocolDto.setVictimFullName(accidentProtocol.getVictim().getName() + " " + accidentProtocol.getVictim().getSurname());
             allUnfinishedDto.add(unfinishedProtocolDto);
         }
         return allUnfinishedDto;
