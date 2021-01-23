@@ -7,6 +7,7 @@ import pl.uracz.workAccident.mapper.*;
 import pl.uracz.workAccident.repository.*;
 import pl.uracz.workAccident.service.AccidentProtocolService;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -179,9 +180,25 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     public Integer numberOfAccidents() {
         return accidentProtocolRepository.numberOfAccidents();
     }
-
+//TODO: create mapper for below method
     @Override
-    public List<AccidentProtocol> findAllUnfinished() {
-        return accidentProtocolRepository.findAllUnfinished();
+    public List<UnfinishedProtocolDto> findAllUnfinished() {
+        List<AccidentProtocol> allUnfinished = accidentProtocolRepository.findAllUnfinished();
+        List<UnfinishedProtocolDto> allUnfinishedDto = new ArrayList<>();
+        for (AccidentProtocol accidentProtocol : allUnfinished) {
+            UnfinishedProtocolDto unfinishedProtocolDto = new UnfinishedProtocolDto();
+            unfinishedProtocolDto.setUnfinishedProtocolNumber(accidentProtocol.getProtocolNumber());
+            unfinishedProtocolDto.setAccidentDate(accidentProtocol.getAccidentDate());
+            unfinishedProtocolDto.setReportedDate(accidentProtocol.getReportedDate());
+            Set<VictimFullNameDto> victimFullNameDtos = new HashSet<>();
+            for (Victim victim : accidentProtocol.getVictim()) {
+                VictimFullNameDto victimFullNameDto = new VictimFullNameDto();
+                victimFullNameDto.setFullName(victim.getName() + " " + victim.getSurname());
+                victimFullNameDtos.add(victimFullNameDto);
+            }
+            unfinishedProtocolDto.setVictimFullNames(victimFullNameDtos);
+            allUnfinishedDto.add(unfinishedProtocolDto);
+        }
+        return allUnfinishedDto;
     }
 }

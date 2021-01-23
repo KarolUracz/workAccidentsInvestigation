@@ -1,6 +1,7 @@
 package pl.uracz.workAccident.service;
 
 import pl.uracz.workAccident.dto.AccidentProtocolDto;
+import pl.uracz.workAccident.dto.UnfinishedProtocolDto;
 import pl.uracz.workAccident.entity.AccidentProtocol;
 
 import java.util.List;
@@ -12,5 +13,5 @@ public interface AccidentProtocolService {
     AccidentProtocol readAccidentProtocol(long id);
     void deleteAccidentProtocol(long id);
     Integer numberOfAccidents();
-    List<AccidentProtocol> findAllUnfinished();
+    List<UnfinishedProtocolDto> findAllUnfinished();
 }
