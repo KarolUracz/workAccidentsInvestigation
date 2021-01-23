@@ -37,13 +37,23 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
     public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository,
                                        AccidentProtocolMapper accidentProtocolMapper,
-                                       AccidentCauseRepository accidentCauseRepository, AccidentCauseMapper accidentCauseMapper,
-                                       AccidentEffectRepository accidentEffectRepository, AccidentEffectMapper accidentEffectMapper,
-                                       AccidentsInvestigatorRepository accidentsInvestigatorRepository, AccidentInvestigatorMapper accidentInvestigatorMapper,
-                                       AccidentTypeRepository accidentTypeRepository, AccidentTypeMapper accidentTypeMapper,
-                                       AfterAccidentRecommendationRepository afterAccidentRecommendationRepository, AfterAccidentRecommendationMapper afterAccidentRecommendationMapper,
-                                       ProtocolAttachmentRepository protocolAttachmentRepository, ProtocolAttachmentMapper protocolAttachmentMapper,
-                                       VictimAddressRepository victimAddressRepository, VictimAddressMapper victimAddressMapper, VictimRepository victimRepository, VictimMapper victimMapper, CompanyRepository companyRepository, CompanyMapper companyMapper) {
+                                       AccidentCauseRepository accidentCauseRepository,
+                                       AccidentCauseMapper accidentCauseMapper,
+                                       AccidentEffectRepository accidentEffectRepository,
+                                       AccidentEffectMapper accidentEffectMapper,
+                                       AccidentsInvestigatorRepository accidentsInvestigatorRepository,
+                                       AccidentInvestigatorMapper accidentInvestigatorMapper,
+                                       AccidentTypeRepository accidentTypeRepository,
+                                       AccidentTypeMapper accidentTypeMapper,
+                                       AfterAccidentRecommendationRepository afterAccidentRecommendationRepository,
+                                       AfterAccidentRecommendationMapper afterAccidentRecommendationMapper,
+                                       ProtocolAttachmentRepository protocolAttachmentRepository,
+                                       ProtocolAttachmentMapper protocolAttachmentMapper,
+                                       VictimAddressRepository victimAddressRepository,
+                                       VictimAddressMapper victimAddressMapper,
+                                       VictimRepository victimRepository,
+                                       VictimMapper victimMapper, CompanyRepository companyRepository,
+                                       CompanyMapper companyMapper) {
         this.accidentProtocolRepository = accidentProtocolRepository;
         this.accidentProtocolMapper = accidentProtocolMapper;
         this.accidentCauseRepository = accidentCauseRepository;
@@ -79,7 +89,11 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     @Override
     public void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto) {
         AccidentProtocol accidentProtocol = accidentProtocolMapper.protocolFromDto(accidentProtocolDto);
-        Company company = new Company();
+        AccidentProtocol byProtocolNumber = accidentProtocolRepository.findByProtocolNumber(accidentProtocol.getProtocolNumber());
+        if (byProtocolNumber != null){
+            accidentProtocol.setId(byProtocolNumber.getId());
+        }
+        Company company;
         if (companyRepository.existsByCompanyName(accidentProtocolDto.getCompanyDto().getCompanyName())){
             company = companyRepository.findByCompanyName(accidentProtocolDto.getCompanyDto().getCompanyName());
             accidentProtocol.setCompany(company);

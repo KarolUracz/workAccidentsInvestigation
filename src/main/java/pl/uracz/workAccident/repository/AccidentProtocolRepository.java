@@ -14,5 +14,6 @@ public interface AccidentProtocolRepository extends JpaRepository<AccidentProtoc
     Integer numberOfAccidents();
     @Query("select ap from AccidentProtocol ap where ap.finishedProtocol = false")
     List<AccidentProtocol> findAllUnfinished();
+    AccidentProtocol findByProtocolNumber(String protocolNumber);
 
 }
