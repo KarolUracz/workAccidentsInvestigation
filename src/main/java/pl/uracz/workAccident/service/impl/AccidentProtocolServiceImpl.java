@@ -196,4 +196,11 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         }
         return allUnfinishedDto;
     }
+
+    @Override
+    public AccidentProtocolDto findByProtocolNumber(String protocolNumber) {
+        AccidentProtocol byProtocolNumber = accidentProtocolRepository.findByProtocolNumber(protocolNumber);
+        AccidentProtocolDto accidentProtocolDto = accidentProtocolMapper.dtoFromAccidentProtocol(byProtocolNumber);
+        return accidentProtocolDto;
+    }
 }

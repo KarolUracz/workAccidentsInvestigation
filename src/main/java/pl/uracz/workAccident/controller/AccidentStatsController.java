@@ -25,5 +25,4 @@ public class AccidentStatsController {
         dataSummary.setNumberOfAccidents(accidentProtocolService.numberOfAccidents());
         return dataSummary;
     }
-
 }

@@ -14,4 +14,5 @@ public interface AccidentProtocolService {
     void deleteAccidentProtocol(long id);
     Integer numberOfAccidents();
     List<UnfinishedProtocolDto> findAllUnfinished();
+    AccidentProtocolDto findByProtocolNumber (String protocolNumber);
 }

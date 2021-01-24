@@ -2,18 +2,12 @@ package pl.uracz.workAccident.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.Data;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Set;
-
 
 @Data
 public class AccidentProtocolDto {
@@ -38,11 +32,15 @@ public class AccidentProtocolDto {
     private Set<AccidentEffectDto> accidentEffectsDto;
     private boolean isAccidentAtWork;
     private String accidentReason;
+    //    private boolean individualAccident;
+//    private boolean collectiveAccident;
+//    private boolean fatalAccident;
+//    private boolean seriousAccident;
+//    private boolean workAbsence;
     private Set<AccidentTypeDto> accidentTypeDto;
     private Set<AfterAccidentRecommendationDto> afterAccidentRecommendationsDto;
     private LocalDate dateOfPreparation;
     private String obstaclesOfPreparationInTerm;
     private Set<ProtocolAttachmentDto> protocolAttachmentsDto;
     private boolean finishedProtocol;
-
 }
