@@ -13,6 +13,6 @@ public class AccidentInvestigator {
     private String name;
     private String surname;
     private String workPosition;
-    @ManyToOne
+    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     private Company company;
 }

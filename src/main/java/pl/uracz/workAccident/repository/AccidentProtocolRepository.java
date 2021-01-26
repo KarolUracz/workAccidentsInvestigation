@@ -18,5 +18,6 @@ public interface AccidentProtocolRepository extends JpaRepository<AccidentProtoc
     AccidentProtocol findByProtocolNumber(String protocolNumber);
     @Transactional
     int deleteAccidentProtocolByProtocolNumber(String protocolNumber);
+    boolean existsAccidentProtocolByProtocolNumber (String protocolNumber);
 
 }

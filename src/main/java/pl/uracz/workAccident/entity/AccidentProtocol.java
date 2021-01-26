@@ -22,9 +22,9 @@ public class AccidentProtocol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String protocolNumber;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     private Company company;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     private Set<AccidentInvestigator> accidentInvestigators;
     private LocalDate accidentProceedingStart;
     private LocalDate accidentProceedingEnd;

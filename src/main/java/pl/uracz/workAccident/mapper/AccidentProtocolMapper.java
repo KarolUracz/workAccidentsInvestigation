@@ -5,8 +5,6 @@ import org.mapstruct.Mapping;
 import pl.uracz.workAccident.dto.*;
 import pl.uracz.workAccident.entity.*;
 
-import java.util.Set;
-
 @Mapper(componentModel = "spring", uses = {AccidentTypeMapper.class, AccidentInvestigatorMapper.class, AccidentEffectMapper.class,
 AccidentCauseMapper.class, AfterAccidentRecommendationMapper.class, CompanyMapper.class, ProtocolAttachmentMapper.class,
 VictimMapper.class})

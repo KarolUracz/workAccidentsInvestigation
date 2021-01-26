@@ -14,5 +14,6 @@ public interface AccidentProtocolService {
     int deleteAccidentProtocol(String protocolNumber);
     Integer numberOfAccidents();
     List<UnfinishedProtocolDto> findAllUnfinished();
-    AccidentProtocolDto findByProtocolNumber (String protocolNumber);
+    AccidentProtocol findByProtocolNumber (String protocolNumber);
+    boolean existByProtocolNumber(String protocolNumber);
 }

@@ -8,9 +8,7 @@ import pl.uracz.workAccident.repository.*;
 import pl.uracz.workAccident.service.AccidentProtocolService;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Service
@@ -95,71 +93,6 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         if (byProtocolNumber != null) {
             accidentProtocol.setId(byProtocolNumber.getId());
         }
-        Company company;
-        if (companyRepository.existsByCompanyName(accidentProtocolDto.getCompanyDto().getCompanyName())) {
-            company = companyRepository.findByCompanyName(accidentProtocolDto.getCompanyDto().getCompanyName());
-            accidentProtocol.setCompany(company);
-        } else {
-            company = companyMapper.companyDtoToCompany(accidentProtocolDto.getCompanyDto());
-            accidentProtocol.setCompany(company);
-            companyRepository.save(company);
-        }
-
-        Set<AccidentInvestigator> accidentInvestigators = new HashSet<>();
-        for (AccidentInvestigatorDto accidentInvestigatorDto : accidentProtocolDto.getAccidentInvestigatorsDto()) {
-            AccidentInvestigator accidentInvestigator = accidentInvestigatorMapper.accidentInvestigatorFromDto(accidentInvestigatorDto);
-            accidentInvestigator.setCompany(company);
-            accidentInvestigators.add(accidentInvestigator);
-            accidentsInvestigatorRepository.save(accidentInvestigator);
-        }
-        accidentProtocol.setAccidentInvestigators(accidentInvestigators);
-
-        VictimAddress victimAddress = victimAddressMapper.victimAddressFromDto(accidentProtocolDto.getVictimDto().getAddressDto());
-        victimAddressRepository.save(victimAddress);
-        Victim victim = victimMapper.victimFromDto(accidentProtocolDto.getVictimDto());
-        victim.setAddress(victimAddress);
-        victimRepository.save(victim);
-        accidentProtocol.setVictim(victim);
-
-        Set<AccidentCause> accidentCauses = new HashSet<>();
-        for (AccidentCauseDto accidentCauseDto : accidentProtocolDto.getAccidentCausesDto()) {
-            AccidentCause accidentCause = accidentCauseMapper.accidentCauseFromDto(accidentCauseDto);
-            accidentCauses.add(accidentCause);
-            accidentCauseRepository.save(accidentCause);
-        }
-        accidentProtocol.setAccidentCauses(accidentCauses);
-        Set<AccidentEffect> accidentEffects = new HashSet<>();
-        for (AccidentEffectDto accidentEffectDto : accidentProtocolDto.getAccidentEffectsDto()) {
-            AccidentEffect accidentEffect = accidentEffectMapper.accidentEffectFromDto(accidentEffectDto);
-            accidentEffects.add(accidentEffect);
-            accidentEffectRepository.save(accidentEffect);
-        }
-        accidentProtocol.setAccidentEffects(accidentEffects);
-
-        Set<AccidentType> accidentTypes = new HashSet<>();
-        for (AccidentTypeDto accidentTypeDto : accidentProtocolDto.getAccidentTypeDto()) {
-            AccidentType accidentType = accidentTypeMapper.accidentTypeFromDto(accidentTypeDto);
-            accidentTypes.add(accidentType);
-            accidentTypeRepository.save(accidentType);
-        }
-        accidentProtocol.setAccidentType(accidentTypes);
-
-        Set<AfterAccidentRecommendation> afterAccidentRecommendations = new HashSet<>();
-        for (AfterAccidentRecommendationDto afterAccidentRecommendationDto : accidentProtocolDto.getAfterAccidentRecommendationsDto()) {
-            AfterAccidentRecommendation afterAccidentRecommendation = afterAccidentRecommendationMapper.accidentRecommendationFromDto(afterAccidentRecommendationDto);
-            afterAccidentRecommendations.add(afterAccidentRecommendation);
-            afterAccidentRecommendationRepository.save(afterAccidentRecommendation);
-        }
-        accidentProtocol.setAfterAccidentRecommendations(afterAccidentRecommendations);
-
-        Set<ProtocolAttachment> protocolAttachments = new HashSet<>();
-        for (ProtocolAttachmentDto protocolAttachmentDto : accidentProtocolDto.getProtocolAttachmentsDto()) {
-            ProtocolAttachment protocolAttachment = protocolAttachmentMapper.attachmentFromDto(protocolAttachmentDto);
-            protocolAttachments.add(protocolAttachment);
-            protocolAttachmentRepository.save(protocolAttachment);
-        }
-        accidentProtocol.setProtocolAttachments(protocolAttachments);
-
         accidentProtocolRepository.save(accidentProtocol);
     }
 
@@ -195,9 +128,16 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     }
 
     @Override
-    public AccidentProtocolDto findByProtocolNumber(String protocolNumber) {
-        AccidentProtocol byProtocolNumber = accidentProtocolRepository.findByProtocolNumber(protocolNumber);
-        AccidentProtocolDto accidentProtocolDto = accidentProtocolMapper.dtoFromAccidentProtocol(byProtocolNumber);
-        return accidentProtocolDto;
+    public AccidentProtocol findByProtocolNumber(String protocolNumber) {
+        if (accidentProtocolRepository.existsAccidentProtocolByProtocolNumber(protocolNumber)) {
+            AccidentProtocol byProtocolNumber = accidentProtocolRepository.findByProtocolNumber(protocolNumber);
+            return byProtocolNumber;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean existByProtocolNumber(String protocolNumber) {
+        return accidentProtocolRepository.existsAccidentProtocolByProtocolNumber(protocolNumber);
     }
 }
