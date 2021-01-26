@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pl.uracz.workAccident.entity.AccidentProtocol;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -15,5 +16,7 @@ public interface AccidentProtocolRepository extends JpaRepository<AccidentProtoc
     @Query("select ap from AccidentProtocol ap where ap.finishedProtocol = false")
     List<AccidentProtocol> findAllUnfinished();
     AccidentProtocol findByProtocolNumber(String protocolNumber);
+    @Transactional
+    int deleteAccidentProtocolByProtocolNumber(String protocolNumber);
 
 }

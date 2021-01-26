@@ -22,9 +22,9 @@ public class AccidentProtocol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String protocolNumber;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Company company;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<AccidentInvestigator> accidentInvestigators;
     private LocalDate accidentProceedingStart;
     private LocalDate accidentProceedingEnd;
@@ -32,27 +32,27 @@ public class AccidentProtocol {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime accidentTime;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Victim victim;
     private String reportedBy;
     private LocalDate reportedDate;
     private String accidentCircumstances;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<AccidentCause> accidentCauses;
     private String employerFault;
     private String employeeFault;
     private String employeeIntoxication;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<AccidentEffect> accidentEffects;
     private boolean isAccidentAtWork;
     private String accidentReason;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<AccidentType> accidentType;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<AfterAccidentRecommendation> afterAccidentRecommendations;
     private LocalDate dateOfPreparation;
     private String obstaclesOfPreparationInTerm;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<ProtocolAttachment> protocolAttachments;
     private boolean finishedProtocol;
 }

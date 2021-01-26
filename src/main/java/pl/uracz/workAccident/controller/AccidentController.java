@@ -4,11 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.uracz.workAccident.dto.AccidentProtocolDto;
-import pl.uracz.workAccident.entity.User;
 import pl.uracz.workAccident.service.AccidentProtocolService;
 import pl.uracz.workAccident.service.UserService;
 
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/api")
@@ -36,6 +34,13 @@ public class AccidentController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(byProtocolNumber, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete")
+    public HttpStatus delete(@RequestParam String protocolNumber) {
+        if (accidentProtocolService.deleteAccidentProtocol(protocolNumber) == 0) {
+            return HttpStatus.NOT_FOUND;
+        } return HttpStatus.OK;
     }
 
 }

@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 @Service
 public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
@@ -128,8 +129,7 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         }
         accidentProtocol.setAccidentCauses(accidentCauses);
         Set<AccidentEffect> accidentEffects = new HashSet<>();
-        for (
-                AccidentEffectDto accidentEffectDto : accidentProtocolDto.getAccidentEffectsDto()) {
+        for (AccidentEffectDto accidentEffectDto : accidentProtocolDto.getAccidentEffectsDto()) {
             AccidentEffect accidentEffect = accidentEffectMapper.accidentEffectFromDto(accidentEffectDto);
             accidentEffects.add(accidentEffect);
             accidentEffectRepository.save(accidentEffect);
@@ -137,8 +137,7 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         accidentProtocol.setAccidentEffects(accidentEffects);
 
         Set<AccidentType> accidentTypes = new HashSet<>();
-        for (
-                AccidentTypeDto accidentTypeDto : accidentProtocolDto.getAccidentTypeDto()) {
+        for (AccidentTypeDto accidentTypeDto : accidentProtocolDto.getAccidentTypeDto()) {
             AccidentType accidentType = accidentTypeMapper.accidentTypeFromDto(accidentTypeDto);
             accidentTypes.add(accidentType);
             accidentTypeRepository.save(accidentType);
@@ -146,8 +145,7 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         accidentProtocol.setAccidentType(accidentTypes);
 
         Set<AfterAccidentRecommendation> afterAccidentRecommendations = new HashSet<>();
-        for (
-                AfterAccidentRecommendationDto afterAccidentRecommendationDto : accidentProtocolDto.getAfterAccidentRecommendationsDto()) {
+        for (AfterAccidentRecommendationDto afterAccidentRecommendationDto : accidentProtocolDto.getAfterAccidentRecommendationsDto()) {
             AfterAccidentRecommendation afterAccidentRecommendation = afterAccidentRecommendationMapper.accidentRecommendationFromDto(afterAccidentRecommendationDto);
             afterAccidentRecommendations.add(afterAccidentRecommendation);
             afterAccidentRecommendationRepository.save(afterAccidentRecommendation);
@@ -155,8 +153,7 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         accidentProtocol.setAfterAccidentRecommendations(afterAccidentRecommendations);
 
         Set<ProtocolAttachment> protocolAttachments = new HashSet<>();
-        for (
-                ProtocolAttachmentDto protocolAttachmentDto : accidentProtocolDto.getProtocolAttachmentsDto()) {
+        for (ProtocolAttachmentDto protocolAttachmentDto : accidentProtocolDto.getProtocolAttachmentsDto()) {
             ProtocolAttachment protocolAttachment = protocolAttachmentMapper.attachmentFromDto(protocolAttachmentDto);
             protocolAttachments.add(protocolAttachment);
             protocolAttachmentRepository.save(protocolAttachment);
@@ -172,8 +169,8 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     }
 
     @Override
-    public void deleteAccidentProtocol(long id) {
-        accidentProtocolRepository.deleteById(id);
+    public int deleteAccidentProtocol(String protocolNumber) {
+         return accidentProtocolRepository.deleteAccidentProtocolByProtocolNumber(protocolNumber);
     }
 
     @Override

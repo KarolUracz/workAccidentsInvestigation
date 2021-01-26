@@ -11,7 +11,7 @@ public interface AccidentProtocolService {
     void saveAccidentProtocol(AccidentProtocol accidentProtocol);
     void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto);
     AccidentProtocol readAccidentProtocol(long id);
-    void deleteAccidentProtocol(long id);
+    int deleteAccidentProtocol(String protocolNumber);
     Integer numberOfAccidents();
     List<UnfinishedProtocolDto> findAllUnfinished();
     AccidentProtocolDto findByProtocolNumber (String protocolNumber);
