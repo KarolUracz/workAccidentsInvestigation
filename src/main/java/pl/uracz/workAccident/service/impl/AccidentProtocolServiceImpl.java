@@ -16,64 +16,12 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
     private AccidentProtocolRepository accidentProtocolRepository;
     private AccidentProtocolMapper accidentProtocolMapper;
-    private AccidentCauseRepository accidentCauseRepository;
-    private AccidentCauseMapper accidentCauseMapper;
-    private AccidentEffectRepository accidentEffectRepository;
-    private AccidentEffectMapper accidentEffectMapper;
-    private AccidentsInvestigatorRepository accidentsInvestigatorRepository;
-    private AccidentInvestigatorMapper accidentInvestigatorMapper;
-    private AccidentTypeRepository accidentTypeRepository;
-    private AccidentTypeMapper accidentTypeMapper;
-    private AfterAccidentRecommendationRepository afterAccidentRecommendationRepository;
-    private AfterAccidentRecommendationMapper afterAccidentRecommendationMapper;
-    private ProtocolAttachmentRepository protocolAttachmentRepository;
-    private ProtocolAttachmentMapper protocolAttachmentMapper;
-    private VictimAddressRepository victimAddressRepository;
-    private VictimAddressMapper victimAddressMapper;
-    private VictimRepository victimRepository;
-    private VictimMapper victimMapper;
-    private CompanyRepository companyRepository;
-    private CompanyMapper companyMapper;
+
 
     public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository,
-                                       AccidentProtocolMapper accidentProtocolMapper,
-                                       AccidentCauseRepository accidentCauseRepository,
-                                       AccidentCauseMapper accidentCauseMapper,
-                                       AccidentEffectRepository accidentEffectRepository,
-                                       AccidentEffectMapper accidentEffectMapper,
-                                       AccidentsInvestigatorRepository accidentsInvestigatorRepository,
-                                       AccidentInvestigatorMapper accidentInvestigatorMapper,
-                                       AccidentTypeRepository accidentTypeRepository,
-                                       AccidentTypeMapper accidentTypeMapper,
-                                       AfterAccidentRecommendationRepository afterAccidentRecommendationRepository,
-                                       AfterAccidentRecommendationMapper afterAccidentRecommendationMapper,
-                                       ProtocolAttachmentRepository protocolAttachmentRepository,
-                                       ProtocolAttachmentMapper protocolAttachmentMapper,
-                                       VictimAddressRepository victimAddressRepository,
-                                       VictimAddressMapper victimAddressMapper,
-                                       VictimRepository victimRepository,
-                                       VictimMapper victimMapper, CompanyRepository companyRepository,
-                                       CompanyMapper companyMapper) {
+                                       AccidentProtocolMapper accidentProtocolMapper) {
         this.accidentProtocolRepository = accidentProtocolRepository;
         this.accidentProtocolMapper = accidentProtocolMapper;
-        this.accidentCauseRepository = accidentCauseRepository;
-        this.accidentCauseMapper = accidentCauseMapper;
-        this.accidentEffectRepository = accidentEffectRepository;
-        this.accidentEffectMapper = accidentEffectMapper;
-        this.accidentsInvestigatorRepository = accidentsInvestigatorRepository;
-        this.accidentInvestigatorMapper = accidentInvestigatorMapper;
-        this.accidentTypeRepository = accidentTypeRepository;
-        this.accidentTypeMapper = accidentTypeMapper;
-        this.afterAccidentRecommendationRepository = afterAccidentRecommendationRepository;
-        this.afterAccidentRecommendationMapper = afterAccidentRecommendationMapper;
-        this.protocolAttachmentRepository = protocolAttachmentRepository;
-        this.protocolAttachmentMapper = protocolAttachmentMapper;
-        this.victimAddressRepository = victimAddressRepository;
-        this.victimAddressMapper = victimAddressMapper;
-        this.victimRepository = victimRepository;
-        this.victimMapper = victimMapper;
-        this.companyRepository = companyRepository;
-        this.companyMapper = companyMapper;
     }
 
     @Override

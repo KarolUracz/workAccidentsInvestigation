@@ -32,12 +32,11 @@ public class AccidentProtocolDto {
     private Set<AccidentEffectDto> accidentEffectsDto;
     private boolean isAccidentAtWork;
     private String accidentReason;
-    //    private boolean individualAccident;
-//    private boolean collectiveAccident;
-//    private boolean fatalAccident;
-//    private boolean seriousAccident;
-//    private boolean workAbsence;
-    private Set<AccidentTypeDto> accidentTypeDto;
+    private boolean individualAccident;
+    private boolean collectiveAccident;
+    private boolean fatalAccident;
+    private boolean seriousAccident;
+    private boolean workAbsence;
     private Set<AfterAccidentRecommendationDto> afterAccidentRecommendationsDto;
     private LocalDate dateOfPreparation;
     private String obstaclesOfPreparationInTerm;

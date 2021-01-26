@@ -46,8 +46,11 @@ public class AccidentProtocol {
     private Set<AccidentEffect> accidentEffects;
     private boolean isAccidentAtWork;
     private String accidentReason;
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<AccidentType> accidentType;
+    private boolean individualAccident;
+    private boolean collectiveAccident;
+    private boolean fatalAccident;
+    private boolean seriousAccident;
+    private boolean workAbsence;
     @OneToMany(cascade = CascadeType.ALL)
     private Set<AfterAccidentRecommendation> afterAccidentRecommendations;
     private LocalDate dateOfPreparation;
