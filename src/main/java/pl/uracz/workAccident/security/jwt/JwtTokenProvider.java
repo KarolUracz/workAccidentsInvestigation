@@ -14,7 +14,7 @@ public class JwtTokenProvider {
     @Value("${jwt.token.secret}")
     private String tokenSecret;
 
-    private final long validityInMs = 60 * 60 * 1000;
+    private final long validityInMs = 24 * 60 * 60 * 1000;
 
     public String generateToken(String username) {
         return Jwts.builder()

@@ -30,6 +30,9 @@ public class AccidentController {
 
     @PostMapping("/addAccident")
     public HttpStatus registerAccident (@RequestBody AccidentProtocolDto accidentProtocolDto, Principal principal) {
+        if (principal == null) {
+            return HttpStatus.UNAUTHORIZED;
+        }
         User byUsername = userService.findByUsername(principal.getName());
         accidentProtocolService.saveAccidentProtocol(accidentProtocolDto, byUsername);
         return HttpStatus.OK;
@@ -46,7 +49,12 @@ public class AccidentController {
     }
 
     @DeleteMapping("/delete")
-    public HttpStatus delete(@RequestParam String protocolNumber) {
+    public HttpStatus delete(@RequestParam String protocolNumber, Principal principal) {
+        User byUsername = userService.findByUsername(principal.getName());
+        AccidentProtocol byProtocolNumber = accidentProtocolService.findByProtocolNumber(protocolNumber);
+        if (byProtocolNumber.getUser() != byUsername) {
+            return HttpStatus.UNAUTHORIZED;
+        }
         if (accidentProtocolService.deleteAccidentProtocol(protocolNumber) == 0) {
             return HttpStatus.NOT_FOUND;
         } return HttpStatus.OK;

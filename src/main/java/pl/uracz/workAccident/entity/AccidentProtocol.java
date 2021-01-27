@@ -58,4 +58,6 @@ public class AccidentProtocol {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<ProtocolAttachment> protocolAttachments;
     private boolean finishedProtocol;
+    @ManyToOne
+    private User user;
 }

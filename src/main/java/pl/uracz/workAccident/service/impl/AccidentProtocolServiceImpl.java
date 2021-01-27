@@ -16,14 +16,16 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
     private AccidentProtocolRepository accidentProtocolRepository;
     private AccidentProtocolMapper accidentProtocolMapper;
-    private CompanyRepository companyRepository;
+    private AccidentRegisterMapper registerMapper;
+    private AccidentRegisterRepository registerRepository;
 
 
     public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository,
-                                       AccidentProtocolMapper accidentProtocolMapper, CompanyRepository companyRepository) {
+                                       AccidentProtocolMapper accidentProtocolMapper, AccidentRegisterMapper registerMapper, AccidentRegisterRepository registerRepository) {
         this.accidentProtocolRepository = accidentProtocolRepository;
         this.accidentProtocolMapper = accidentProtocolMapper;
-        this.companyRepository = companyRepository;
+        this.registerMapper = registerMapper;
+        this.registerRepository = registerRepository;
     }
 
     @Override
@@ -59,7 +61,12 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         for (AccidentInvestigator investigator: accidentProtocol.getAccidentInvestigators()) {
             investigator.setCompany(user.getCompany());
         }
+        accidentProtocol.setUser(user);
+        AccidentRegister accidentRegister = registerMapper.registerFromProtocol(accidentProtocol);
+
         accidentProtocolRepository.save(accidentProtocol);
+
+        registerRepository.save(accidentRegister);
     }
 
     @Override
