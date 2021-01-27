@@ -14,10 +14,10 @@ import java.util.List;
 @Service
 public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
-    private AccidentProtocolRepository accidentProtocolRepository;
-    private AccidentProtocolMapper accidentProtocolMapper;
-    private AccidentRegisterMapper registerMapper;
-    private AccidentRegisterRepository registerRepository;
+    private final AccidentProtocolRepository accidentProtocolRepository;
+    private final AccidentProtocolMapper accidentProtocolMapper;
+    private final AccidentRegisterMapper registerMapper;
+    private final AccidentRegisterRepository registerRepository;
 
 
     public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository,
@@ -63,9 +63,9 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         }
         accidentProtocol.setUser(user);
         AccidentRegister accidentRegister = registerMapper.registerFromProtocol(accidentProtocol);
-
-        accidentProtocolRepository.save(accidentProtocol);
-
+        if(accidentProtocol.isFinishedProtocol()) {
+            accidentProtocolRepository.save(accidentProtocol);
+        }
         registerRepository.save(accidentRegister);
     }
 
@@ -103,8 +103,7 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     @Override
     public AccidentProtocol findByProtocolNumber(String protocolNumber) {
         if (accidentProtocolRepository.existsAccidentProtocolByProtocolNumber(protocolNumber)) {
-            AccidentProtocol byProtocolNumber = accidentProtocolRepository.findByProtocolNumber(protocolNumber);
-            return byProtocolNumber;
+            return accidentProtocolRepository.findByProtocolNumber(protocolNumber);
         }
         return null;
     }
