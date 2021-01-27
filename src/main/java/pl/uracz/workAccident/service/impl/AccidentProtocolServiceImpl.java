@@ -16,12 +16,14 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
     private AccidentProtocolRepository accidentProtocolRepository;
     private AccidentProtocolMapper accidentProtocolMapper;
+    private CompanyRepository companyRepository;
 
 
     public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository,
-                                       AccidentProtocolMapper accidentProtocolMapper) {
+                                       AccidentProtocolMapper accidentProtocolMapper, CompanyRepository companyRepository) {
         this.accidentProtocolRepository = accidentProtocolRepository;
         this.accidentProtocolMapper = accidentProtocolMapper;
+        this.companyRepository = companyRepository;
     }
 
     @Override
@@ -40,6 +42,22 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         AccidentProtocol byProtocolNumber = accidentProtocolRepository.findByProtocolNumber(accidentProtocol.getProtocolNumber());
         if (byProtocolNumber != null) {
             accidentProtocol.setId(byProtocolNumber.getId());
+        }
+        for (AccidentInvestigator investigator: accidentProtocol.getAccidentInvestigators()) {
+            investigator.setCompany(accidentProtocol.getCompany());
+        }
+        accidentProtocolRepository.save(accidentProtocol);
+    }
+
+    @Override
+    public void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto, User user) {
+        AccidentProtocol accidentProtocol = accidentProtocolMapper.protocolFromDto(accidentProtocolDto);
+        AccidentProtocol byProtocolNumber = accidentProtocolRepository.findByProtocolNumber(accidentProtocol.getProtocolNumber());
+        if (byProtocolNumber != null) {
+            accidentProtocol.setId(byProtocolNumber.getId());
+        }
+        for (AccidentInvestigator investigator: accidentProtocol.getAccidentInvestigators()) {
+            investigator.setCompany(user.getCompany());
         }
         accidentProtocolRepository.save(accidentProtocol);
     }

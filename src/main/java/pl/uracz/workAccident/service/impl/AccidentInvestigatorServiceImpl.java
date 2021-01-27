@@ -47,13 +47,6 @@ public class AccidentInvestigatorServiceImpl implements AccidentInvestigatorServ
     @Override
     public void saveAccidentInvestigator(AccidentInvestigatorDto accidentInvestigatorDto) {
         AccidentInvestigator accidentInvestigator = accidentInvestigatorMapper.accidentInvestigatorFromDto(accidentInvestigatorDto);
-        if (companyRepository.existsByCompanyName(accidentInvestigatorDto.getCompanyDto().getCompanyName())){
-            accidentInvestigator.setCompany(companyRepository.findByCompanyName(accidentInvestigatorDto.getCompanyDto().getCompanyName()));
-        } else {
-            Company company = companyMapper.companyDtoToCompany(accidentInvestigatorDto.getCompanyDto());
-            accidentInvestigator.setCompany(company);
-            companyRepository.save(company);
-        }
         accidentsInvestigatorRepository.save(accidentInvestigator);
     }
 

@@ -5,13 +5,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.uracz.workAccident.dto.AccidentProtocolDto;
 import pl.uracz.workAccident.entity.AccidentProtocol;
+import pl.uracz.workAccident.entity.User;
 import pl.uracz.workAccident.mapper.AccidentProtocolMapper;
 import pl.uracz.workAccident.service.AccidentProtocolService;
 import pl.uracz.workAccident.service.UserService;
 
+import java.security.Principal;
+
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/accident")
 @CrossOrigin
 public class AccidentController {
 
@@ -26,8 +29,9 @@ public class AccidentController {
     }
 
     @PostMapping("/addAccident")
-    public HttpStatus registerAccident (@RequestBody AccidentProtocolDto accidentProtocolDto) {
-        accidentProtocolService.saveAccidentProtocol(accidentProtocolDto);
+    public HttpStatus registerAccident (@RequestBody AccidentProtocolDto accidentProtocolDto, Principal principal) {
+        User byUsername = userService.findByUsername(principal.getName());
+        accidentProtocolService.saveAccidentProtocol(accidentProtocolDto, byUsername);
         return HttpStatus.OK;
     }
 

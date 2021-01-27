@@ -11,9 +11,7 @@ import java.util.Set;
 public interface AccidentInvestigatorMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "company", source = "companyDto")
     AccidentInvestigator accidentInvestigatorFromDto(AccidentInvestigatorDto accidentInvestigatorDto);
-    @Mapping(target = "companyDto", source = "company")
     AccidentInvestigatorDto dtoFromAccidentInvestigator(AccidentInvestigator accidentInvestigator);
     Set<AccidentInvestigatorDto> accidentInvestigatorToDto(Set<AccidentInvestigator> accidentInvestigators);
 }
