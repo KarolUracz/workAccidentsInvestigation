@@ -14,8 +14,6 @@ public class Company {
     private String postalCode;
     private String taxIdentificationNumber;
     private String pkdNumber;
-    @OneToMany
-    private Set<AccidentInvestigator> accidentInvestigators;
 
     public Long getId() {
         return id;
@@ -71,13 +69,5 @@ public class Company {
 
     public void setPkdNumber(String pkdNumber) {
         this.pkdNumber = pkdNumber;
-    }
-
-    public Set<AccidentInvestigator> getAccidentInvestigators() {
-        return accidentInvestigators;
-    }
-
-    public void setAccidentInvestigators(Set<AccidentInvestigator> accidentInvestigators) {
-        this.accidentInvestigators = accidentInvestigators;
     }
 }
