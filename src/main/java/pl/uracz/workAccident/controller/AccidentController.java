@@ -39,8 +39,12 @@ public class AccidentController {
     }
 
     @GetMapping("getAccident")
-    public ResponseEntity<AccidentProtocolDto> getAccidentProtocol(@RequestParam String accidentNumber) {
+    public ResponseEntity<AccidentProtocolDto> getAccidentProtocol(@RequestParam String accidentNumber, Principal principal) {
         AccidentProtocol byProtocolNumber = accidentProtocolService.findByProtocolNumber(accidentNumber);
+        User byUsername = userService.findByUsername(principal.getName());
+        if (!byProtocolNumber.getUser().equals(byProtocolNumber)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         if (byProtocolNumber == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -60,4 +64,29 @@ public class AccidentController {
         } return HttpStatus.OK;
     }
 
+    @PutMapping("/update")
+    public HttpStatus updateProtocol (@RequestBody AccidentProtocol accidentProtocol, Principal principal) {
+        User byUsername = userService.findByUsername(principal.getName());
+        AccidentProtocol byId = accidentProtocolService.findById(accidentProtocol.getId());
+        if (byUsername.equals(byId.getUser())) {
+            accidentProtocol.setUser(byUsername);
+            accidentProtocolService.updateAccident(accidentProtocol);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.UNAUTHORIZED;
+    }
+
+    @GetMapping("/update")
+    public ResponseEntity<AccidentProtocol> updateAccidentProtocol(@RequestParam String accidentNumber, Principal principal) {
+        AccidentProtocol byProtocolNumber = accidentProtocolService.findByProtocolNumber(accidentNumber);
+        User byUsername = userService.findByUsername(principal.getName());
+        if (!byProtocolNumber.getUser().equals(byUsername)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        if (byProtocolNumber == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        byProtocolNumber.setUser(null);
+        return new ResponseEntity<>(byProtocolNumber, HttpStatus.OK);
+    }
 }

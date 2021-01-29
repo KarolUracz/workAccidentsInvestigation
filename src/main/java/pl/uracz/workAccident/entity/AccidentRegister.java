@@ -25,4 +25,6 @@ public class AccidentRegister {
     private LocalDate dateOfDeliveryToZus;
     @OneToMany
     private Set<AfterAccidentRecommendation> afterAccidentRecommendations;
+    @ManyToOne
+    private Company company;
 }

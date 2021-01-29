@@ -9,6 +9,7 @@ import pl.uracz.workAccident.service.AccidentProtocolService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -16,16 +17,32 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
     private final AccidentProtocolRepository accidentProtocolRepository;
     private final AccidentProtocolMapper accidentProtocolMapper;
+    private final CompanyRepository companyRepository;
     private final AccidentRegisterMapper registerMapper;
     private final AccidentRegisterRepository registerRepository;
+    private final AccidentsInvestigatorRepository investigatorRepository;
+    private final AccidentCauseRepository causeRepository;
+    private final AccidentEffectRepository effectRepository;
+    private final AfterAccidentRecommendationRepository recommendationRepository;
+    private final ProtocolAttachmentRepository protocolAttachmentRepository;
+    private final VictimRepository victimRepository;
+    private final VictimAddressRepository victimAddressRepository;
 
 
     public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository,
-                                       AccidentProtocolMapper accidentProtocolMapper, AccidentRegisterMapper registerMapper, AccidentRegisterRepository registerRepository) {
+                                       AccidentProtocolMapper accidentProtocolMapper, CompanyRepository companyRepository, AccidentRegisterMapper registerMapper, AccidentRegisterRepository registerRepository, AccidentsInvestigatorRepository investigatorRepository, AccidentCauseRepository causeRepository, AccidentEffectRepository effectRepository, AfterAccidentRecommendationRepository recommendationRepository, ProtocolAttachmentRepository protocolAttachmentRepository, VictimRepository victimRepository, VictimAddressRepository victimAddressRepository) {
         this.accidentProtocolRepository = accidentProtocolRepository;
         this.accidentProtocolMapper = accidentProtocolMapper;
+        this.companyRepository = companyRepository;
         this.registerMapper = registerMapper;
         this.registerRepository = registerRepository;
+        this.investigatorRepository = investigatorRepository;
+        this.causeRepository = causeRepository;
+        this.effectRepository = effectRepository;
+        this.recommendationRepository = recommendationRepository;
+        this.protocolAttachmentRepository = protocolAttachmentRepository;
+        this.victimRepository = victimRepository;
+        this.victimAddressRepository = victimAddressRepository;
     }
 
     @Override
@@ -34,39 +51,12 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     }
 
     @Override
-    public void saveAccidentProtocol(AccidentProtocol accidentProtocol) {
-        accidentProtocolRepository.save(accidentProtocol);
-    }
-
-    @Override
-    public void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto) {
-        AccidentProtocol accidentProtocol = accidentProtocolMapper.protocolFromDto(accidentProtocolDto);
-        AccidentProtocol byProtocolNumber = accidentProtocolRepository.findByProtocolNumber(accidentProtocol.getProtocolNumber());
-        if (byProtocolNumber != null) {
-            accidentProtocol.setId(byProtocolNumber.getId());
-        }
-        for (AccidentInvestigator investigator: accidentProtocol.getAccidentInvestigators()) {
-            investigator.setCompany(accidentProtocol.getCompany());
-        }
-        accidentProtocolRepository.save(accidentProtocol);
-    }
-
-    @Override
     public void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto, User user) {
         AccidentProtocol accidentProtocol = accidentProtocolMapper.protocolFromDto(accidentProtocolDto);
-        AccidentProtocol byProtocolNumber = accidentProtocolRepository.findByProtocolNumber(accidentProtocol.getProtocolNumber());
-        if (byProtocolNumber != null) {
-            accidentProtocol.setId(byProtocolNumber.getId());
-        }
-        for (AccidentInvestigator investigator: accidentProtocol.getAccidentInvestigators()) {
-            investigator.setCompany(user.getCompany());
-        }
+        Set<AccidentInvestigator> accidentInvestigators = accidentProtocol.getAccidentInvestigators();
+        accidentInvestigators.forEach(inv -> inv.setCompany(user.getCompany()));
         accidentProtocol.setUser(user);
-        AccidentRegister accidentRegister = registerMapper.registerFromProtocol(accidentProtocol);
-        if(accidentProtocol.isFinishedProtocol()) {
-            accidentProtocolRepository.save(accidentProtocol);
-        }
-        registerRepository.save(accidentRegister);
+        accidentProtocolRepository.save(accidentProtocol);
     }
 
     @Override
@@ -76,7 +66,7 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
     @Override
     public int deleteAccidentProtocol(String protocolNumber) {
-         return accidentProtocolRepository.deleteAccidentProtocolByProtocolNumber(protocolNumber);
+        return accidentProtocolRepository.deleteAccidentProtocolByProtocolNumber(protocolNumber);
     }
 
     @Override
@@ -109,7 +99,12 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     }
 
     @Override
-    public boolean existByProtocolNumber(String protocolNumber) {
-        return accidentProtocolRepository.existsAccidentProtocolByProtocolNumber(protocolNumber);
+    public void updateAccident(AccidentProtocol accidentProtocol) {
+        accidentProtocolRepository.save(accidentProtocol);
+    }
+
+    @Override
+    public AccidentProtocol findById(long id) {
+        return accidentProtocolRepository.findById(id).orElse(null);
     }
 }

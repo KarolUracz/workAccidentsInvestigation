@@ -6,4 +6,6 @@ import pl.uracz.workAccident.entity.AccidentRegister;
 
 @Repository
 public interface AccidentRegisterRepository extends JpaRepository<AccidentRegister, Long> {
+    boolean existsByProtocolNumber(String protocolNumber);
+    AccidentRegister findByProtocolNumber (String protocolNumber);
 }

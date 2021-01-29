@@ -14,7 +14,7 @@ public class Victim {
     private String name;
     private String surname;
     private LocalDate birthDate;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
     private VictimAddress address;
     private String workDepartment;
     private String workplace;
