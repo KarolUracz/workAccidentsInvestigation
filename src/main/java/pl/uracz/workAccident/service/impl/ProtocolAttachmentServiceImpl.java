@@ -1,7 +1,9 @@
 package pl.uracz.workAccident.service.impl;
 
 import org.springframework.stereotype.Service;
+import pl.uracz.workAccident.dto.ProtocolAttachmentDto;
 import pl.uracz.workAccident.entity.ProtocolAttachment;
+import pl.uracz.workAccident.mapper.ProtocolAttachmentMapper;
 import pl.uracz.workAccident.repository.ProtocolAttachmentRepository;
 import pl.uracz.workAccident.service.ProtocolAttachmentService;
 
@@ -11,9 +13,11 @@ import java.util.List;
 public class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService {
 
     private ProtocolAttachmentRepository protocolAttachmentRepository;
+    private ProtocolAttachmentMapper protocolAttachmentMapper;
 
-    public ProtocolAttachmentServiceImpl(ProtocolAttachmentRepository protocolAttachmentRepository) {
+    public ProtocolAttachmentServiceImpl(ProtocolAttachmentRepository protocolAttachmentRepository, ProtocolAttachmentMapper protocolAttachmentMapper) {
         this.protocolAttachmentRepository = protocolAttachmentRepository;
+        this.protocolAttachmentMapper = protocolAttachmentMapper;
     }
 
     @Override
@@ -23,6 +27,12 @@ public class ProtocolAttachmentServiceImpl implements ProtocolAttachmentService 
 
     @Override
     public void saveProtocolAttachment(ProtocolAttachment protocolAttachment) {
+        protocolAttachmentRepository.save(protocolAttachment);
+    }
+
+    @Override
+    public void saveProtocolAttachment(ProtocolAttachmentDto protocolAttachmentDto) {
+        ProtocolAttachment protocolAttachment = protocolAttachmentMapper.attachmentFromDto(protocolAttachmentDto);
         protocolAttachmentRepository.save(protocolAttachment);
     }
 

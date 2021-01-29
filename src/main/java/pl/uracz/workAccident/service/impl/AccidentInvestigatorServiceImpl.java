@@ -1,8 +1,13 @@
 package pl.uracz.workAccident.service.impl;
 
 import org.springframework.stereotype.Service;
+import pl.uracz.workAccident.dto.AccidentInvestigatorDto;
 import pl.uracz.workAccident.entity.AccidentInvestigator;
+import pl.uracz.workAccident.entity.Company;
+import pl.uracz.workAccident.mapper.AccidentInvestigatorMapper;
+import pl.uracz.workAccident.mapper.CompanyMapper;
 import pl.uracz.workAccident.repository.AccidentsInvestigatorRepository;
+import pl.uracz.workAccident.repository.CompanyRepository;
 import pl.uracz.workAccident.service.AccidentInvestigatorService;
 
 import java.util.List;
@@ -11,9 +16,15 @@ import java.util.List;
 public class AccidentInvestigatorServiceImpl implements AccidentInvestigatorService {
 
     private AccidentsInvestigatorRepository accidentsInvestigatorRepository;
+    private AccidentInvestigatorMapper accidentInvestigatorMapper;
+    private CompanyMapper companyMapper;
+    private CompanyRepository companyRepository;
 
-    public AccidentInvestigatorServiceImpl(AccidentsInvestigatorRepository accidentsInvestigatorRepository) {
+    public AccidentInvestigatorServiceImpl(AccidentsInvestigatorRepository accidentsInvestigatorRepository, AccidentInvestigatorMapper accidentInvestigatorMapper, CompanyMapper companyMapper, CompanyRepository companyRepository) {
         this.accidentsInvestigatorRepository = accidentsInvestigatorRepository;
+        this.accidentInvestigatorMapper = accidentInvestigatorMapper;
+        this.companyMapper = companyMapper;
+        this.companyRepository = companyRepository;
     }
 
     @Override
@@ -23,6 +34,19 @@ public class AccidentInvestigatorServiceImpl implements AccidentInvestigatorServ
 
     @Override
     public void saveAccidentInvestigator(AccidentInvestigator accidentInvestigator) {
+        if (companyRepository.existsByCompanyName(accidentInvestigator.getCompany().getCompanyName())){
+            accidentInvestigator.setCompany(companyRepository.findByCompanyName(accidentInvestigator.getCompany().getCompanyName()));
+        } else {
+            Company company = accidentInvestigator.getCompany();
+            accidentInvestigator.setCompany(company);
+            companyRepository.save(company);
+        }
+        accidentsInvestigatorRepository.save(accidentInvestigator);
+    }
+
+    @Override
+    public void saveAccidentInvestigator(AccidentInvestigatorDto accidentInvestigatorDto) {
+        AccidentInvestigator accidentInvestigator = accidentInvestigatorMapper.accidentInvestigatorFromDto(accidentInvestigatorDto);
         accidentsInvestigatorRepository.save(accidentInvestigator);
     }
 

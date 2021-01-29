@@ -1,19 +1,48 @@
 package pl.uracz.workAccident.service.impl;
 
 import org.springframework.stereotype.Service;
-import pl.uracz.workAccident.entity.AccidentProtocol;
-import pl.uracz.workAccident.repository.AccidentProtocolRepository;
+import pl.uracz.workAccident.dto.*;
+import pl.uracz.workAccident.entity.*;
+import pl.uracz.workAccident.mapper.*;
+import pl.uracz.workAccident.repository.*;
 import pl.uracz.workAccident.service.AccidentProtocolService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 
 @Service
 public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
-    private AccidentProtocolRepository accidentProtocolRepository;
+    private final AccidentProtocolRepository accidentProtocolRepository;
+    private final AccidentProtocolMapper accidentProtocolMapper;
+    private final CompanyRepository companyRepository;
+    private final AccidentRegisterMapper registerMapper;
+    private final AccidentRegisterRepository registerRepository;
+    private final AccidentsInvestigatorRepository investigatorRepository;
+    private final AccidentCauseRepository causeRepository;
+    private final AccidentEffectRepository effectRepository;
+    private final AfterAccidentRecommendationRepository recommendationRepository;
+    private final ProtocolAttachmentRepository protocolAttachmentRepository;
+    private final VictimRepository victimRepository;
+    private final VictimAddressRepository victimAddressRepository;
 
-    public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository) {
+
+    public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository,
+                                       AccidentProtocolMapper accidentProtocolMapper, CompanyRepository companyRepository, AccidentRegisterMapper registerMapper, AccidentRegisterRepository registerRepository, AccidentsInvestigatorRepository investigatorRepository, AccidentCauseRepository causeRepository, AccidentEffectRepository effectRepository, AfterAccidentRecommendationRepository recommendationRepository, ProtocolAttachmentRepository protocolAttachmentRepository, VictimRepository victimRepository, VictimAddressRepository victimAddressRepository) {
         this.accidentProtocolRepository = accidentProtocolRepository;
+        this.accidentProtocolMapper = accidentProtocolMapper;
+        this.companyRepository = companyRepository;
+        this.registerMapper = registerMapper;
+        this.registerRepository = registerRepository;
+        this.investigatorRepository = investigatorRepository;
+        this.causeRepository = causeRepository;
+        this.effectRepository = effectRepository;
+        this.recommendationRepository = recommendationRepository;
+        this.protocolAttachmentRepository = protocolAttachmentRepository;
+        this.victimRepository = victimRepository;
+        this.victimAddressRepository = victimAddressRepository;
     }
 
     @Override
@@ -22,7 +51,11 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     }
 
     @Override
-    public void saveAccidentProtocol(AccidentProtocol accidentProtocol) {
+    public void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto, User user) {
+        AccidentProtocol accidentProtocol = accidentProtocolMapper.protocolFromDto(accidentProtocolDto);
+        Set<AccidentInvestigator> accidentInvestigators = accidentProtocol.getAccidentInvestigators();
+        accidentInvestigators.forEach(inv -> inv.setCompany(user.getCompany()));
+        accidentProtocol.setUser(user);
         accidentProtocolRepository.save(accidentProtocol);
     }
 
@@ -32,7 +65,46 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     }
 
     @Override
-    public void deleteAccidentProtocol(long id) {
-        accidentProtocolRepository.deleteById(id);
+    public int deleteAccidentProtocol(String protocolNumber) {
+        return accidentProtocolRepository.deleteAccidentProtocolByProtocolNumber(protocolNumber);
+    }
+
+    @Override
+    public Integer numberOfAccidents() {
+        return accidentProtocolRepository.numberOfAccidents();
+    }
+
+    //TODO: create mapper for below method
+    @Override
+    public List<UnfinishedProtocolDto> findAllUnfinished() {
+        List<AccidentProtocol> allUnfinished = accidentProtocolRepository.findAllUnfinished();
+        List<UnfinishedProtocolDto> allUnfinishedDto = new ArrayList<>();
+        for (AccidentProtocol accidentProtocol : allUnfinished) {
+            UnfinishedProtocolDto unfinishedProtocolDto = new UnfinishedProtocolDto();
+            unfinishedProtocolDto.setUnfinishedProtocolNumber(accidentProtocol.getProtocolNumber());
+            unfinishedProtocolDto.setAccidentDate(accidentProtocol.getAccidentDate());
+            unfinishedProtocolDto.setReportedDate(accidentProtocol.getReportedDate());
+            unfinishedProtocolDto.setVictimFullName(accidentProtocol.getVictim().getName() + " " + accidentProtocol.getVictim().getSurname());
+            allUnfinishedDto.add(unfinishedProtocolDto);
+        }
+        return allUnfinishedDto;
+    }
+
+    @Override
+    public AccidentProtocol findByProtocolNumber(String protocolNumber) {
+        if (accidentProtocolRepository.existsAccidentProtocolByProtocolNumber(protocolNumber)) {
+            return accidentProtocolRepository.findByProtocolNumber(protocolNumber);
+        }
+        return null;
+    }
+
+    @Override
+    public void updateAccident(AccidentProtocol accidentProtocol) {
+        accidentProtocolRepository.save(accidentProtocol);
+    }
+
+    @Override
+    public AccidentProtocol findById(long id) {
+        return accidentProtocolRepository.findById(id).orElse(null);
     }
 }
