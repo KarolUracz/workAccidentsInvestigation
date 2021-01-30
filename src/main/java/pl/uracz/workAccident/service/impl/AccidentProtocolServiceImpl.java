@@ -17,6 +17,8 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
     private final AccidentProtocolRepository accidentProtocolRepository;
     private final AccidentProtocolMapper accidentProtocolMapper;
+    private final AccidentRegisterMapper accidentRegisterMapper;
+    private final AccidentRegisterRepository accidentRegisterRepository;
     private final CompanyRepository companyRepository;
     private final AccidentRegisterMapper registerMapper;
     private final AccidentRegisterRepository registerRepository;
@@ -30,9 +32,10 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
 
     public AccidentProtocolServiceImpl(AccidentProtocolRepository accidentProtocolRepository,
-                                       AccidentProtocolMapper accidentProtocolMapper, CompanyRepository companyRepository, AccidentRegisterMapper registerMapper, AccidentRegisterRepository registerRepository, AccidentsInvestigatorRepository investigatorRepository, AccidentCauseRepository causeRepository, AccidentEffectRepository effectRepository, AfterAccidentRecommendationRepository recommendationRepository, ProtocolAttachmentRepository protocolAttachmentRepository, VictimRepository victimRepository, VictimAddressRepository victimAddressRepository) {
+                                       AccidentProtocolMapper accidentProtocolMapper, CompanyRepository companyRepository, AccidentRegisterMapper registerMapper, AccidentRegisterRepository registerRepository, AccidentsInvestigatorRepository investigatorRepository, AccidentCauseRepository causeRepository, AccidentEffectRepository effectRepository, AfterAccidentRecommendationRepository recommendationRepository, ProtocolAttachmentRepository protocolAttachmentRepository, VictimRepository victimRepository, VictimAddressRepository victimAddressRepository, AccidentRegisterMapper accidentRegisterMapper, AccidentRegisterRepository accidentRegisterRepository) {
         this.accidentProtocolRepository = accidentProtocolRepository;
         this.accidentProtocolMapper = accidentProtocolMapper;
+        this.accidentRegisterMapper = accidentRegisterMapper;
         this.companyRepository = companyRepository;
         this.registerMapper = registerMapper;
         this.registerRepository = registerRepository;
@@ -43,6 +46,7 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         this.protocolAttachmentRepository = protocolAttachmentRepository;
         this.victimRepository = victimRepository;
         this.victimAddressRepository = victimAddressRepository;
+        this.accidentRegisterRepository = accidentRegisterRepository;
     }
 
     @Override
@@ -56,6 +60,10 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         Set<AccidentInvestigator> accidentInvestigators = accidentProtocol.getAccidentInvestigators();
         accidentInvestigators.forEach(inv -> inv.setCompany(user.getCompany()));
         accidentProtocol.setUser(user);
+        if (accidentProtocol.isFinishedProtocol()) {
+            AccidentRegister accidentRegister = accidentRegisterMapper.registerFromProtocol(accidentProtocol);
+            accidentRegisterRepository.save(accidentRegister);
+        }
         accidentProtocolRepository.save(accidentProtocol);
     }
 
@@ -100,6 +108,10 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
     @Override
     public void updateAccident(AccidentProtocol accidentProtocol) {
+        if (accidentProtocol.isFinishedProtocol()) {
+            AccidentRegister accidentRegister = accidentRegisterMapper.registerFromProtocol(accidentProtocol);
+            accidentRegisterRepository.save(accidentRegister);
+        }
         accidentProtocolRepository.save(accidentProtocol);
     }
 

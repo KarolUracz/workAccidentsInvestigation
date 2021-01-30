@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,12 +20,12 @@ public class AccidentRegister {
     private String accidentPlace;
     private LocalDate accidentDate;
     @OneToMany
-    private Set<AccidentEffect> accidentEffects;
+    private List<AccidentEffect> accidentEffects;
     private int daysOfWorkAbsence;
     private boolean isAccidentAtWork;
     private LocalDate dateOfDeliveryToZus;
     @OneToMany
-    private Set<AfterAccidentRecommendation> afterAccidentRecommendations;
+    private List<AfterAccidentRecommendation> afterAccidentRecommendations;
     @ManyToOne
     private Company company;
 }

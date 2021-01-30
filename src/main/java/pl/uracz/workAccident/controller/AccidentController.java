@@ -42,7 +42,7 @@ public class AccidentController {
     public ResponseEntity<AccidentProtocolDto> getAccidentProtocol(@RequestParam String accidentNumber, Principal principal) {
         AccidentProtocol byProtocolNumber = accidentProtocolService.findByProtocolNumber(accidentNumber);
         User byUsername = userService.findByUsername(principal.getName());
-        if (!byProtocolNumber.getUser().equals(byProtocolNumber)) {
+        if (!byProtocolNumber.getUser().equals(byUsername)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         if (byProtocolNumber == null) {
