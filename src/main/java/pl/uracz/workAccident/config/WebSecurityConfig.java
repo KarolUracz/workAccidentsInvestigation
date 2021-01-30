@@ -31,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/panel/**").hasRole("USER")
                 .antMatchers("/api/data-summary").hasRole("USER")
                 .antMatchers("/api/accident").hasRole("USER")
+                .antMatchers("/api/register").hasRole("USER")
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }

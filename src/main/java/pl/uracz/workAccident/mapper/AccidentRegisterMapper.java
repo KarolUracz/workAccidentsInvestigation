@@ -6,6 +6,8 @@ import pl.uracz.workAccident.dto.AccidentRegisterDto;
 import pl.uracz.workAccident.entity.AccidentProtocol;
 import pl.uracz.workAccident.entity.AccidentRegister;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface AccidentRegisterMapper {
 
@@ -18,4 +20,5 @@ public interface AccidentRegisterMapper {
     @Mapping(target = "victimFullName", expression = "java(accidentProtocol.getVictim().getName() + \" \" + accidentProtocol.getVictim().getSurname())")
     AccidentRegister registerFromProtocol(AccidentProtocol accidentProtocol);
 
+    List<AccidentRegisterDto> dtoListFromRegister (List<AccidentRegister> accidentRegisters);
 }
