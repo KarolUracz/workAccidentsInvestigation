@@ -128,10 +128,12 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     }
 
     @Override
-    public void finishProtocol(AccidentProtocol accidentProtocol) {
+    public void finishProtocol(AccidentProtocol accidentProtocol, User byUsername) {
         accidentProtocol.setFinishedProtocol(true);
-        AccidentRegister accidentRegister = accidentRegisterMapper.registerFromProtocol(accidentProtocol);
-        accidentRegisterRepository.save(accidentRegister);
+        if (accidentProtocol.getCompany().equals(byUsername.getCompany())) {
+            AccidentRegister accidentRegister = accidentRegisterMapper.registerFromProtocol(accidentProtocol);
+            accidentRegisterRepository.save(accidentRegister);
+        }
         accidentProtocolRepository.save(accidentProtocol);
     }
 }

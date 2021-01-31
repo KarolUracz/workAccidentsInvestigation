@@ -17,5 +17,5 @@ public interface AccidentProtocolService {
     void updateAccident(AccidentProtocol accidentProtocol);
     AccidentProtocol findById (long id);
     void save(AccidentProtocol accidentProtocol);
-    void finishProtocol (AccidentProtocol accidentProtocol);
+    void finishProtocol(AccidentProtocol accidentProtocol, User byUsername);
 }

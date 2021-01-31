@@ -106,7 +106,7 @@ public class AccidentController {
         if (byProtocolNumber == null) {
             return HttpStatus.NOT_FOUND;
         }
-        accidentProtocolService.finishProtocol(byProtocolNumber);
+        accidentProtocolService.finishProtocol(byProtocolNumber, byUsername);
         return HttpStatus.OK;
     }
 }
