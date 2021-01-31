@@ -67,13 +67,16 @@ public class AccidentController {
     @PutMapping("/update")
     public HttpStatus updateProtocol (@RequestBody AccidentProtocol accidentProtocol, Principal principal) {
         User byUsername = userService.findByUsername(principal.getName());
+        if (byUsername == null) {
+            return HttpStatus.UNAUTHORIZED;
+        }
         AccidentProtocol byId = accidentProtocolService.findById(accidentProtocol.getId());
         if (byUsername.equals(byId.getUser())) {
             accidentProtocol.setUser(byUsername);
             accidentProtocolService.updateAccident(accidentProtocol);
             return HttpStatus.OK;
         }
-        return HttpStatus.UNAUTHORIZED;
+        return HttpStatus.NO_CONTENT;
     }
 
     @GetMapping("/update")

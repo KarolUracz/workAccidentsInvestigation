@@ -13,6 +13,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,28 +23,28 @@ public class AccidentProtocol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String protocolNumber;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.DETACH})
+    @ManyToOne(cascade = CascadeType.ALL)
     private Company company;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
-    private Set<AccidentInvestigator> accidentInvestigators;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<AccidentInvestigator> accidentInvestigators;
     private LocalDate accidentProceedingStart;
     private LocalDate accidentProceedingEnd;
     private LocalDate accidentDate;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime accidentTime;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
+    @OneToOne(cascade = CascadeType.ALL)
     private Victim victim;
     private String reportedBy;
     private LocalDate reportedDate;
     private String accidentCircumstances;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
-    private Set<AccidentCause> accidentCauses;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<AccidentCause> accidentCauses;
     private String employerFault;
     private String employeeFault;
     private String employeeIntoxication;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
-    private Set<AccidentEffect> accidentEffects;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<AccidentEffect> accidentEffects;
     private boolean isAccidentAtWork;
     private String accidentReason;
     private boolean individualAccident;
@@ -51,12 +52,12 @@ public class AccidentProtocol {
     private boolean fatalAccident;
     private boolean seriousAccident;
     private boolean workAbsence;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
-    private Set<AfterAccidentRecommendation> afterAccidentRecommendations;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<AfterAccidentRecommendation> afterAccidentRecommendations;
     private LocalDate dateOfPreparation;
     private String obstaclesOfPreparationInTerm;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
-    private Set<ProtocolAttachment> protocolAttachments;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ProtocolAttachment> protocolAttachments;
     private boolean finishedProtocol;
     @ManyToOne
     private User user;

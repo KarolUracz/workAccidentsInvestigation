@@ -57,13 +57,32 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     @Override
     public void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto, User user) {
         AccidentProtocol accidentProtocol = accidentProtocolMapper.protocolFromDto(accidentProtocolDto);
-        Set<AccidentInvestigator> accidentInvestigators = accidentProtocol.getAccidentInvestigators();
-        accidentInvestigators.forEach(inv -> inv.setCompany(user.getCompany()));
-        accidentProtocol.setUser(user);
-        if (accidentProtocol.isFinishedProtocol()) {
-            AccidentRegister accidentRegister = accidentRegisterMapper.registerFromProtocol(accidentProtocol);
-            accidentRegisterRepository.save(accidentRegister);
+
+        Company byCompanyName = companyRepository.findByCompanyName(accidentProtocol.getCompany().getCompanyName());
+        if (byCompanyName != null) {
+            accidentProtocol.setCompany(byCompanyName);
         }
+//        companyRepository.save(accidentProtocol.getCompany());
+
+        for (AccidentInvestigator accidentInvestigator: accidentProtocol.getAccidentInvestigators()) {
+            accidentInvestigator.setCompany(user.getCompany());
+        }
+
+        Victim byNameAndSurname = victimRepository.findByNameAndSurname(accidentProtocol.getVictim().getName(), accidentProtocol.getVictim().getSurname());
+        if (byNameAndSurname != null) {
+            accidentProtocol.setVictim(byNameAndSurname);
+        }
+//        victimRepository.save(accidentProtocol.getVictim());
+
+        accidentProtocol.setUser(user);
+
+//        accidentProtocolRepository.save(accidentProtocol);
+//
+//        if (accidentProtocol.isFinishedProtocol()) {
+//            AccidentRegister accidentRegister = accidentRegisterMapper.registerFromProtocol(accidentProtocol);
+//            accidentRegister.setCompany(user.getCompany());
+//            accidentRegisterRepository.save(accidentRegister);
+//        }
         accidentProtocolRepository.save(accidentProtocol);
     }
 

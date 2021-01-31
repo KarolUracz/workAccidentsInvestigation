@@ -8,4 +8,5 @@ import pl.uracz.workAccident.entity.Company;
 public interface CompanyRepository extends JpaRepository<Company, Long> {
     Company findByCompanyName (String companyName);
     boolean existsByCompanyName (String companyName);
+    Company findByCompanyNameAndTaxIdentificationNumber(String companyName, String nip);
 }

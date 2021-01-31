@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import pl.uracz.workAccident.dto.AfterAccidentRecommendationDto;
 import pl.uracz.workAccident.entity.AfterAccidentRecommendation;
 
+import java.util.List;
 import java.util.Set;
 
 @Mapper(componentModel = "spring")
@@ -13,5 +14,5 @@ public interface AfterAccidentRecommendationMapper {
     @Mapping(target = "id", ignore = true)
     AfterAccidentRecommendation accidentRecommendationFromDto (AfterAccidentRecommendationDto afterAccidentRecommendationDto);
     AfterAccidentRecommendationDto dtoFromAccidentRecommendation(AfterAccidentRecommendation afterAccidentRecommendation);
-    Set<AfterAccidentRecommendationDto> recommendationToDto (Set<AfterAccidentRecommendation> afterAccidentRecommendations);
+    List<AfterAccidentRecommendationDto> recommendationToDto (List<AfterAccidentRecommendation> afterAccidentRecommendations);
 }

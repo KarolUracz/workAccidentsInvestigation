@@ -6,4 +6,5 @@ import pl.uracz.workAccident.entity.Victim;
 
 @Repository
 public interface VictimRepository extends JpaRepository<Victim, Long> {
+    Victim findByNameAndSurname (String name, String surname);
 }
