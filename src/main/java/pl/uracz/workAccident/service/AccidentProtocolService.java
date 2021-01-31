@@ -10,11 +10,12 @@ import java.util.List;
 public interface AccidentProtocolService {
     List<AccidentProtocol> findAll();
     void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto, User user);
-    AccidentProtocol readAccidentProtocol(long id);
     int deleteAccidentProtocol(String protocolNumber);
     Integer numberOfAccidents();
     List<UnfinishedProtocolDto> findAllUnfinished();
     AccidentProtocol findByProtocolNumber (String protocolNumber);
     void updateAccident(AccidentProtocol accidentProtocol);
     AccidentProtocol findById (long id);
+    void save(AccidentProtocol accidentProtocol);
+    void finishProtocol (AccidentProtocol accidentProtocol);
 }

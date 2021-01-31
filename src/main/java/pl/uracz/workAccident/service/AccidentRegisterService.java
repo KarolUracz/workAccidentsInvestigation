@@ -8,4 +8,6 @@ import java.util.List;
 public interface AccidentRegisterService {
     List<AccidentRegister> findAll();
     List<AccidentRegister> findByCompany (Company company);
+    AccidentRegister findByProtocolNumberAndCompany (String protocolNumber, Company company);
+    void save(AccidentRegister accidentRegister);
 }

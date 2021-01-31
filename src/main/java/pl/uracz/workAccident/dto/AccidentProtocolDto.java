@@ -41,5 +41,5 @@ public class AccidentProtocolDto {
     private LocalDate dateOfPreparation;
     private String obstaclesOfPreparationInTerm;
     private Set<ProtocolAttachmentDto> protocolAttachmentsDto;
-    private boolean finishedProtocol;
+    private boolean finishedProtocol = false;
 }

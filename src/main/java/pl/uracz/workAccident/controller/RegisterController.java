@@ -1,9 +1,7 @@
 package pl.uracz.workAccident.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import pl.uracz.workAccident.dto.AccidentRegisterDto;
 import pl.uracz.workAccident.entity.AccidentRegister;
 import pl.uracz.workAccident.entity.User;
@@ -12,6 +10,7 @@ import pl.uracz.workAccident.service.AccidentRegisterService;
 import pl.uracz.workAccident.service.UserService;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -34,5 +33,24 @@ public class RegisterController {
         User byUsername = userService.findByUsername(principal.getName());
         List<AccidentRegister> byCompany = accidentRegisterService.findByCompany(byUsername.getCompany());
         return accidentRegisterMapper.dtoListFromRegister(byCompany);
+    }
+
+    @PutMapping("/update")
+    public HttpStatus updateRegisterEntry (@RequestParam String protocolNumber, @RequestParam String accidentPlace,
+                                           @RequestParam int daysOfWorkAbsence, @RequestParam String dateOfDeliveryToZus,
+                                           Principal principal) {
+        User byUsername = userService.findByUsername(principal.getName());
+        if (byUsername == null) {
+            return HttpStatus.UNAUTHORIZED;
+        }
+        AccidentRegister byProtocolNumberAndCompany = accidentRegisterService.findByProtocolNumberAndCompany(protocolNumber, byUsername.getCompany());
+        if (byProtocolNumberAndCompany == null) {
+            return HttpStatus.NOT_FOUND;
+        }
+        byProtocolNumberAndCompany.setAccidentPlace(accidentPlace);
+        byProtocolNumberAndCompany.setDaysOfWorkAbsence(daysOfWorkAbsence);
+        byProtocolNumberAndCompany.setDateOfDeliveryToZus(LocalDate.parse(dateOfDeliveryToZus));
+        accidentRegisterService.save(byProtocolNumberAndCompany);
+        return HttpStatus.OK;
     }
 }

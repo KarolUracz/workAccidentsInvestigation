@@ -12,4 +12,5 @@ public interface AccidentRegisterRepository extends JpaRepository<AccidentRegist
     boolean existsByProtocolNumber(String protocolNumber);
     AccidentRegister findByProtocolNumber (String protocolNumber);
     List<AccidentRegister> findByCompany (Company company);
+    AccidentRegister findByProtocolNumberAndCompany (String protocolNumber, Company company);
 }

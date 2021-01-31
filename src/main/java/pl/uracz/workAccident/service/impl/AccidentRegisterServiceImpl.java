@@ -26,4 +26,14 @@ public class AccidentRegisterServiceImpl implements AccidentRegisterService {
     public List<AccidentRegister> findByCompany(Company company) {
         return accidentRegisterRepository.findByCompany(company);
     }
+
+    @Override
+    public AccidentRegister findByProtocolNumberAndCompany(String protocolNumber, Company company) {
+        return accidentRegisterRepository.findByProtocolNumberAndCompany(protocolNumber, company);
+    }
+
+    @Override
+    public void save(AccidentRegister accidentRegister) {
+        accidentRegisterRepository.save(accidentRegister);
+    }
 }

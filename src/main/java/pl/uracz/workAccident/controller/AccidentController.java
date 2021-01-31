@@ -92,4 +92,21 @@ public class AccidentController {
         byProtocolNumber.setUser(null);
         return new ResponseEntity<>(byProtocolNumber, HttpStatus.OK);
     }
+
+    @GetMapping("/finish")
+    public HttpStatus finishProtocol (@RequestParam String protocolNumber, Principal principal) {
+        User byUsername = userService.findByUsername(principal.getName());
+        if (byUsername == null) {
+            return HttpStatus.UNAUTHORIZED;
+        }
+        AccidentProtocol byProtocolNumber = accidentProtocolService.findByProtocolNumber(protocolNumber);
+        if (!byProtocolNumber.getUser().equals(byUsername)) {
+            return HttpStatus.UNAUTHORIZED;
+        }
+        if (byProtocolNumber == null) {
+            return HttpStatus.NOT_FOUND;
+        }
+        accidentProtocolService.finishProtocol(byProtocolNumber);
+        return HttpStatus.OK;
+    }
 }

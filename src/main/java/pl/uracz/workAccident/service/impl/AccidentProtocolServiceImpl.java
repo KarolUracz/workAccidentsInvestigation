@@ -9,8 +9,6 @@ import pl.uracz.workAccident.service.AccidentProtocolService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 
 @Service
 public class AccidentProtocolServiceImpl implements AccidentProtocolService {
@@ -74,21 +72,9 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         }
 //        victimRepository.save(accidentProtocol.getVictim());
 
+        accidentProtocol.setFinishedProtocol(false);
         accidentProtocol.setUser(user);
-
-//        accidentProtocolRepository.save(accidentProtocol);
-//
-//        if (accidentProtocol.isFinishedProtocol()) {
-//            AccidentRegister accidentRegister = accidentRegisterMapper.registerFromProtocol(accidentProtocol);
-//            accidentRegister.setCompany(user.getCompany());
-//            accidentRegisterRepository.save(accidentRegister);
-//        }
         accidentProtocolRepository.save(accidentProtocol);
-    }
-
-    @Override
-    public AccidentProtocol readAccidentProtocol(long id) {
-        return accidentProtocolRepository.getOne(id);
     }
 
     @Override
@@ -127,15 +113,25 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
 
     @Override
     public void updateAccident(AccidentProtocol accidentProtocol) {
-        if (accidentProtocol.isFinishedProtocol()) {
-            AccidentRegister accidentRegister = accidentRegisterMapper.registerFromProtocol(accidentProtocol);
-            accidentRegisterRepository.save(accidentRegister);
-        }
+        accidentProtocol.setFatalAccident(false);
         accidentProtocolRepository.save(accidentProtocol);
     }
 
     @Override
     public AccidentProtocol findById(long id) {
         return accidentProtocolRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void save(AccidentProtocol accidentProtocol) {
+        accidentProtocolRepository.save(accidentProtocol);
+    }
+
+    @Override
+    public void finishProtocol(AccidentProtocol accidentProtocol) {
+        accidentProtocol.setFinishedProtocol(true);
+        AccidentRegister accidentRegister = accidentRegisterMapper.registerFromProtocol(accidentProtocol);
+        accidentRegisterRepository.save(accidentRegister);
+        accidentProtocolRepository.save(accidentProtocol);
     }
 }
