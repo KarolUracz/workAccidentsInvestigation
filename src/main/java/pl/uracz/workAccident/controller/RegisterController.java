@@ -47,10 +47,8 @@ public class RegisterController {
         if (byProtocolNumberAndCompany == null) {
             return HttpStatus.NOT_FOUND;
         }
-        byProtocolNumberAndCompany.setAccidentPlace(accidentPlace);
-        byProtocolNumberAndCompany.setDaysOfWorkAbsence(daysOfWorkAbsence);
-        byProtocolNumberAndCompany.setDateOfDeliveryToZus(LocalDate.parse(dateOfDeliveryToZus));
-        accidentRegisterService.save(byProtocolNumberAndCompany);
+        AccidentRegister update = accidentRegisterService.update(byProtocolNumberAndCompany, accidentPlace, daysOfWorkAbsence, dateOfDeliveryToZus);
+        accidentRegisterService.save(update);
         return HttpStatus.OK;
     }
 }

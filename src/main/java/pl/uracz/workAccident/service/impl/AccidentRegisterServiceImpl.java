@@ -6,6 +6,7 @@ import pl.uracz.workAccident.entity.Company;
 import pl.uracz.workAccident.repository.AccidentRegisterRepository;
 import pl.uracz.workAccident.service.AccidentRegisterService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -35,5 +36,13 @@ public class AccidentRegisterServiceImpl implements AccidentRegisterService {
     @Override
     public void save(AccidentRegister accidentRegister) {
         accidentRegisterRepository.save(accidentRegister);
+    }
+
+    @Override
+    public AccidentRegister update(AccidentRegister accidentRegister, String accidentPlace, int daysOfWorkAbsence, String dateOfDeliveryToZus) {
+        accidentRegister.setAccidentPlace(accidentPlace);
+        accidentRegister.setDaysOfWorkAbsence(daysOfWorkAbsence);
+        accidentRegister.setDateOfDeliveryToZus(LocalDate.parse(dateOfDeliveryToZus));
+        return accidentRegister;
     }
 }

@@ -10,4 +10,5 @@ public interface AccidentRegisterService {
     List<AccidentRegister> findByCompany (Company company);
     AccidentRegister findByProtocolNumberAndCompany (String protocolNumber, Company company);
     void save(AccidentRegister accidentRegister);
+    AccidentRegister update(AccidentRegister accidentRegister, String accidentPlace, int daysOfWorkAbsence, String dateOfDeliveryToZus);
 }
