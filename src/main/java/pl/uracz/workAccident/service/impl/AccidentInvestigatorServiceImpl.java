@@ -49,14 +49,4 @@ public class AccidentInvestigatorServiceImpl implements AccidentInvestigatorServ
         AccidentInvestigator accidentInvestigator = accidentInvestigatorMapper.accidentInvestigatorFromDto(accidentInvestigatorDto);
         accidentsInvestigatorRepository.save(accidentInvestigator);
     }
-
-    @Override
-    public AccidentInvestigator readAccidentInvestigator(long id) {
-        return accidentsInvestigatorRepository.getOne(id);
-    }
-
-    @Override
-    public void deleteAccidentInvestigator(long id) {
-        accidentsInvestigatorRepository.deleteById(id);
-    }
 }

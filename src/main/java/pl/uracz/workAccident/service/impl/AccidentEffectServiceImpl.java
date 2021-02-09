@@ -35,14 +35,4 @@ public class AccidentEffectServiceImpl implements AccidentEffectService {
         AccidentEffect accidentEffect = accidentEffectMapper.accidentEffectFromDto(accidentEffectDto);
         accidentEffectRepository.save(accidentEffect);
     }
-
-    @Override
-    public AccidentEffect readAccidentEffect(long id) {
-        return accidentEffectRepository.getOne(id);
-    }
-
-    @Override
-    public void deleteAccidentEffect(long id) {
-        accidentEffectRepository.deleteById(id);
-    }
 }

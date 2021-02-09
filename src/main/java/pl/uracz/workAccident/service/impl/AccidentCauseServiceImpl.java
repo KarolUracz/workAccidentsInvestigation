@@ -35,14 +35,4 @@ public class AccidentCauseServiceImpl implements AccidentCauseService {
         AccidentCause accidentCause = accidentCauseMapper.accidentCauseFromDto(accidentCauseDto);
         accidentCauseRepository.save(accidentCause);
     }
-
-    @Override
-    public AccidentCause readAccidentCause(long id) {
-        return accidentCauseRepository.getOne(id);
-    }
-
-    @Override
-    public void deleteAccidentCause(long id) {
-        accidentCauseRepository.deleteById(id);
-    }
 }

@@ -9,6 +9,4 @@ public interface AccidentEffectService {
     List<AccidentEffect> findAll();
     void saveAccidentEffect(AccidentEffect accidentEffect);
     void saveAccidentEffect(AccidentEffectDto accidentEffectDto);
-    AccidentEffect readAccidentEffect(long id);
-    void deleteAccidentEffect(long id);
 }

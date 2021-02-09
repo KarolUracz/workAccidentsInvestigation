@@ -9,6 +9,4 @@ public interface AccidentInvestigatorService {
     List<AccidentInvestigator> findAll();
     void saveAccidentInvestigator(AccidentInvestigator accidentInvestigator);
     void saveAccidentInvestigator(AccidentInvestigatorDto accidentInvestigatorDto);
-    AccidentInvestigator readAccidentInvestigator(long id);
-    void deleteAccidentInvestigator(long id);
 }
