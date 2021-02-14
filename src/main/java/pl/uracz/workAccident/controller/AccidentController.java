@@ -10,6 +10,7 @@ import pl.uracz.workAccident.mapper.AccidentProtocolMapper;
 import pl.uracz.workAccident.service.AccidentProtocolService;
 import pl.uracz.workAccident.service.UserService;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 
@@ -29,7 +30,7 @@ public class AccidentController {
     }
 
     @PostMapping("/addAccident")
-    public HttpStatus registerAccident (@RequestBody AccidentProtocolDto accidentProtocolDto, Principal principal) {
+    public HttpStatus registerAccident (@Valid @RequestBody AccidentProtocolDto accidentProtocolDto, Principal principal) {
         if (principal == null) {
             return HttpStatus.UNAUTHORIZED;
         }

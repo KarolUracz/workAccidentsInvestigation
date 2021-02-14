@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AccidentProtocolService {
     List<AccidentProtocol> findAll();
-    void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto, User user);
+    AccidentProtocol saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto, User user);
     int deleteAccidentProtocol(String protocolNumber);
     Integer numberOfAccidents();
     List<UnfinishedProtocolDto> findAllUnfinished();

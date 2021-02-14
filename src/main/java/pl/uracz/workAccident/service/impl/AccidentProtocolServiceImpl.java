@@ -53,14 +53,13 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
     }
 
     @Override
-    public void saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto, User user) {
+    public AccidentProtocol saveAccidentProtocol(AccidentProtocolDto accidentProtocolDto, User user) {
         AccidentProtocol accidentProtocol = accidentProtocolMapper.protocolFromDto(accidentProtocolDto);
 
         Company byCompanyName = companyRepository.findByCompanyName(accidentProtocol.getCompany().getCompanyName());
         if (byCompanyName != null) {
             accidentProtocol.setCompany(byCompanyName);
         }
-//        companyRepository.save(accidentProtocol.getCompany());
 
         for (AccidentInvestigator accidentInvestigator: accidentProtocol.getAccidentInvestigators()) {
             accidentInvestigator.setCompany(user.getCompany());
@@ -70,11 +69,10 @@ public class AccidentProtocolServiceImpl implements AccidentProtocolService {
         if (byNameAndSurname != null) {
             accidentProtocol.setVictim(byNameAndSurname);
         }
-//        victimRepository.save(accidentProtocol.getVictim());
-
         accidentProtocol.setFinishedProtocol(false);
         accidentProtocol.setUser(user);
-        accidentProtocolRepository.save(accidentProtocol);
+        AccidentProtocol save = accidentProtocolRepository.save(accidentProtocol);
+        return save;
     }
 
     @Override
