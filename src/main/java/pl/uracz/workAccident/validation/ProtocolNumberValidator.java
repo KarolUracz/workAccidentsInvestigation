@@ -20,7 +20,6 @@ public class ProtocolNumberValidator implements ConstraintValidator<ProtocolNumb
 
     @Override
     public void initialize(ProtocolNumberValidation constraintAnnotation) {
-
     }
 
     @Override
